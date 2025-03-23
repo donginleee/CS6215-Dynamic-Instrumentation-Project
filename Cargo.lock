@@ -123,10 +123,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b63caa9aa9397e2d9480a9b13673856c78d8ac123288526c37d7839f2a86990"
 
 [[package]]
+name = "dyin"
+version = "0.1.0"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "either"
 version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b7914353092ddf589ad78f25c5c1c21b7f80b0ff8621e7c814c3485b5306da9d"
+
+[[package]]
+name = "external_instrumentation"
+version = "0.1.0"
+dependencies = [
+ "lazy_static",
+ "libc",
+]
 
 [[package]]
 name = "heck"
@@ -197,13 +212,6 @@ dependencies = [
  "llvm-plugin-macros",
  "regex",
  "semver 1.0.26",
-]
-
-[[package]]
-name = "llvm-plugin-cli"
-version = "0.1.0"
-dependencies = [
- "clap",
 ]
 
 [[package]]

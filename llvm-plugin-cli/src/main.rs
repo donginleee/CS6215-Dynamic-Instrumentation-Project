@@ -19,44 +19,62 @@ fn main() {
     println!("Running with {} threads", args.threads);
     println!("Instrumentation mode: {}", args.instr);
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 1-----------------------------");
     // Step 1: Compile pthread.c to LLVM IR (no -DNUM_THREADS!)
     let clang_cmd = "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll".to_string();
     run_command("Compiling pthread.c", &clang_cmd);
     println!("Compilation of Source Code Complete!!!");
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 2-----------------------------");
     // Step 2: Compile LLVM pass
     run_command("Building LLVM Pass", "cargo b --example concurrent-write --features llvm17-0");
     println!("Compilation of LLVM Pass Complete!!!");
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 3-----------------------------");
     // Step 3: Apply LLVM Pass
-    let pass_cmd = "opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
-        --passes=concurrent-write in_1.ll -S -o out_1.ll".to_string();
-    run_command("Applying LLVM Pass", &pass_cmd);
+    // let pass_cmd = "opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
+    //     --passes=concurrent-write in_1.ll -S -o out_1.ll".to_string();
+    // run_command("Applying LLVM Pass", &pass_cmd);
+    let pass_cmd = format!(
+        "INSTRUMENTATION_MODE={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
+        --passes=concurrent-write in_1.ll -S -o out_1.ll",
+        args.instr
+    );
+    run_command("Applying LLVM Pass", &pass_cmd);    
     println!("Optimization LLVM Pass Completed!!!");
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 4-----------------------------");
     // Step 4: IR → Object
     run_command("Generating Object File", "llc -relocation-model=pic -filetype=obj out_1.ll -o out_1.o");
     println!("IR to Object File Completed!!!");
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 5-----------------------------");
     // Step 5: Link final executable
     run_command(
         "Linking Final Executable",
         "clang out_1.o -o final_exe \
-        -L /home/dongin/external_instrumentation/target/release \
+        -L /home/dongin/llvm-plugin-rs/external_instrumentation/target/release/deps \
         -lexternal_instrumentation -lpthread"
     );
     println!("External Module Instrumentation Completed!!!");
 
+    println!("---------------------------------------------------------------------------");
+    println!("------------------------Step 6-----------------------------");
     // Step 6: Run with thread count as argument
     let run_cmd = format!(
-        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=/home/dongin/external_instrumentation/target/release ./final_exe {}",
+        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=/home/dongin/llvm-plugin-rs/external_instrumentation/target/release/deps ./final_exe {}",
         args.instr, args.threads
     );
     run_command("Executing Final Binary", &run_cmd);
 }
 
 fn run_command(step: &str, command: &str) {
-    println!("----------------------------------------");
+    println!("---------------------------------------------------------------------------");
     println!("{}", step);
     let output = Command::new("sh")
         .arg("-c")
@@ -72,6 +90,7 @@ fn run_command(step: &str, command: &str) {
     }
 }
 
+//cargo build -p llvm-plugin-cli
 //==========================================================================================
 
 // use clap::{Parser};
