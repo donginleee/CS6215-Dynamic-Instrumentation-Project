@@ -1,0 +1,19 @@
+[package]
+name = "llvm-plugin-macros"
+version = "0.2.0"
+authors = ["James Smith <jamesmth@proton.me>"]
+categories = ["development-tools::ffi"]
+description = "Proc macros for llvm-plugin"
+edition = "2021"
+keywords = ["llvm", "pass", "safe", "wrapper"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/jamesmth/llvm-plugin-rs"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = { version = "1", default-features = false }
+syn = { version = "1", features = ["full"] }
+quote = { version = "1", default-features = false }

@@ -1,0 +1,97 @@
+[package]
+name = "llvm-plugin"
+version = "0.6.0"
+authors = ["James Smith <jamesmth@proton.me>"]
+categories = ["development-tools::ffi"]
+description = "A wrapper for easily implementing out-of-source-tree LLVM plugins in Rust."
+documentation = "https://docs.rs/llvm_plugin/"
+edition = "2021"
+keywords = ["llvm", "pass", "safe", "wrapper"]
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/jamesmth/llvm-plugin-rs"
+
+[package.metadata.docs.rs]
+features = ["llvm15-0"]            # any version >10 will do
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+default = ["macros", "target-all"]
+macros = ["llvm-plugin-macros"]
+
+# On Windows, llvm plugins require linking with either opt.lib,
+# or lld.lib.
+win-link-opt = []
+win-link-lld = []
+
+llvm10-0 = ["inkwell/llvm10-0-no-llvm-linking"]
+llvm11-0 = ["inkwell/llvm11-0-no-llvm-linking"]
+llvm12-0 = ["inkwell/llvm12-0-no-llvm-linking"]
+llvm13-0 = ["inkwell/llvm13-0-no-llvm-linking"]
+llvm14-0 = ["inkwell/llvm14-0-no-llvm-linking"]
+llvm15-0 = ["inkwell/llvm15-0-no-llvm-linking"]
+llvm16-0 = ["inkwell/llvm16-0-no-llvm-linking"]
+llvm17-0 = ["inkwell/llvm17-0-no-llvm-linking"]
+llvm18-1 = ["inkwell/llvm18-0-no-llvm-linking"]
+
+target-x86 = ["inkwell/target-x86"]
+target-arm = ["inkwell/target-arm"]
+target-mips = ["inkwell/target-mips"]
+target-aarch64 = ["inkwell/target-aarch64"]
+target-amdgpu = ["inkwell/target-amdgpu"]
+target-systemz = ["inkwell/target-systemz"]
+target-hexagon = ["inkwell/target-hexagon"]
+target-nvptx = ["inkwell/target-nvptx"]
+target-msp430 = ["inkwell/target-msp430"]
+target-xcore = ["inkwell/target-xcore"]
+target-powerpc = ["inkwell/target-powerpc"]
+target-sparc = ["inkwell/target-sparc"]
+target-bpf = ["inkwell/target-bpf"]
+target-lanai = ["inkwell/target-lanai"]
+target-webassembly = ["inkwell/target-webassembly"]
+target-riscv = ["inkwell/target-riscv"]
+target-all = ["inkwell/target-all"]
+
+[dependencies]
+inkwell = "0.5"
+llvm-plugin-macros = { path = "../llvm-plugin-macros", version = "0.2", optional = true }
+libc = "0.2"
+
+[build-dependencies]
+cc = "1"
+lazy_static = "1"
+regex = "1"
+semver = "1"
+
+[dev-dependencies]
+either = "1"
+
+[[example]]
+name = "hello-world"
+crate-type = ["cdylib"]
+path = "../examples/hello_world.rs"
+
+[[example]]
+name = "opcode-counter"
+crate-type = ["cdylib"]
+path = "../examples/opcode_counter.rs"
+
+[[example]]
+name = "inject-printf"
+crate-type = ["cdylib"]
+path = "../examples/inject_printf.rs"
+
+[[example]]
+name = "static-call-counter"
+crate-type = ["cdylib"]
+path = "../examples/static_call_counter.rs"
+
+[[example]]
+name = "string-obf"
+crate-type = ["cdylib"]
+path = "../examples/strings.rs"
+
+[[example]]
+name = "concurrent-write"
+crate-type = ["cdylib"]
+path = "../examples/concurrent_write.rs"
