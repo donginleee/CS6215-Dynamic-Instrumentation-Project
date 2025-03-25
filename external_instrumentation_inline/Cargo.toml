@@ -1,0 +1,11 @@
+[package]
+name = "external_instrumentation_inline"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+libc = "0.2"
+

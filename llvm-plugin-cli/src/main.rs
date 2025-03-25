@@ -1,16 +1,21 @@
 use clap::Parser;
 use std::process::Command;
 
+/// CLI tool interface for dynamic instrumentation
 #[derive(Parser)]
 #[command(name = "dyin", version = "1.0", about = "Dynamic Instrumentation CLI for LLVM")]
 struct Cli {
-    /// Number of threads for pthread execution (default: 2)
+    /// Number of threads to run (default: 2)
     #[arg(short = 't', long, default_value_t = 2)]
     threads: u32,
 
-    /// Instrumentation mode: store, load, or both (default: both)
+    /// Instrumentation mode: store, load, or both
     #[arg(short = 'i', long, default_value = "both")]
     instr: String,
+
+    /// Enable inline instrumentation (true = use bitcode inlining)
+    #[arg(long)]
+    inline: bool,
 }
 
 fn main() {
@@ -18,69 +23,109 @@ fn main() {
 
     println!("Running with {} threads", args.threads);
     println!("Instrumentation mode: {}", args.instr);
+    println!("Inline instrumentation: {}", args.inline);
 
+    let inline_env = if args.inline {
+        "INSTRUMENTATION_INLINE=true"
+    } else {
+        "INSTRUMENTATION_INLINE=false"
+    };
+
+    println!("===========================================================================");    
+    println!("===============================CS6215======================================");    
+    println!("=======================Dynamic Instrumentation Project=====================");
+    println!("==========================Developed by Dongin Lee==========================");
+    println!("===========================================================================");
+    println!("===========================================================================\n\n");
+    
+    
+    // Step 1: Compile source into LLVM IR
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 1-----------------------------");
-    // Step 1: Compile pthread.c to LLVM IR (no -DNUM_THREADS!)
-    let clang_cmd = "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll".to_string();
-    run_command("Compiling pthread.c", &clang_cmd);
+    println!("--------------------------------Step 1-------------------------------------");
+    println!("---------------------------------------------------------------------------");
+    run_command("Compiling pthread.c", "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll");
     println!("Compilation of Source Code Complete!!!");
-
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 2-----------------------------");
-    // Step 2: Compile LLVM pass
-    run_command("Building LLVM Pass", "cargo b --example concurrent-write --features llvm17-0");
-    println!("Compilation of LLVM Pass Complete!!!");
+    println!("---------------------------------------------------------------------------\n\n");
 
+    // Step 2: Build instrumentation pass
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 3-----------------------------");
-    // Step 3: Apply LLVM Pass
-    // let pass_cmd = "opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
-    //     --passes=concurrent-write in_1.ll -S -o out_1.ll".to_string();
-    // run_command("Applying LLVM Pass", &pass_cmd);
-    let pass_cmd = format!(
-        "INSTRUMENTATION_MODE={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
-        --passes=concurrent-write in_1.ll -S -o out_1.ll",
-        args.instr
+    println!("--------------------------------Step 2-------------------------------------");
+    println!("---------------------------------------------------------------------------");
+    run_command(
+        "Building LLVM Pass",
+        &format!("{inline_env} INSTRUMENTATION_MODE={} cargo build --example concurrent-write --features llvm17-0", args.instr)
     );
-    run_command("Applying LLVM Pass", &pass_cmd);    
-    println!("Optimization LLVM Pass Completed!!!");
-
+    println!("Compilation of LLVM Pass Complete!!!");
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 4-----------------------------");
+    println!("---------------------------------------------------------------------------\n\n");
+
+    // Step 3: Link with inline bitcode version
+    println!("---------------------------------------------------------------------------");
+    println!("--------------------------------Step 3-------------------------------------");
+    println!("---------------------------------------------------------------------------");
+    let pass_cmd = format!(
+        "INSTRUMENTATION_MODE={} INSTRUMENTATION_INLINE={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
+        --passes=concurrent-write in_1.ll -S -o out_1.ll",
+        args.instr, args.inline
+    );
+    run_command("Running instrumentation pass", &pass_cmd);
+
+    if args.inline {
+        let bc_path = "target/release/deps/external_instrumentation_inline.bc";
+
+        let inline_link_cmd = format!("llvm-link out_1.ll {} -o linked.ll", bc_path);
+        run_command("Linking .bc and IR", &inline_link_cmd);
+
+        let inline_opt_cmd = "opt -passes=inline linked.ll -S -o out_1.ll".to_string();
+        run_command("Running optimizer for inlining", &inline_opt_cmd);
+    }
+    println!("Optimization LLVM Pass Completed!!!");
+    println!("---------------------------------------------------------------------------");
+    println!("---------------------------------------------------------------------------\n\n");
+
     // Step 4: IR → Object
+    println!("---------------------------------------------------------------------------");
+    println!("--------------------------------Step 4-------------------------------------");
+    println!("---------------------------------------------------------------------------");
     run_command("Generating Object File", "llc -relocation-model=pic -filetype=obj out_1.ll -o out_1.o");
     println!("IR to Object File Completed!!!");
-
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 5-----------------------------");
+    println!("---------------------------------------------------------------------------\n\n");
+
     // Step 5: Link final executable
-    run_command(
-        "Linking Final Executable",
-        "clang out_1.o -o final_exe \
-        -L /home/dongin/llvm-plugin-rs/external_instrumentation/target/release/deps \
-        -lexternal_instrumentation -lpthread"
-    );
-    println!("External Module Instrumentation Completed!!!");
-
     println!("---------------------------------------------------------------------------");
-    println!("------------------------Step 6-----------------------------");
-    // Step 6: Run with thread count as argument
+    println!("--------------------------------Step 5-------------------------------------");
+    println!("---------------------------------------------------------------------------");
+    let link_cmd = if args.inline {
+        "clang out_1.o -o final_exe -lpthread".to_string()
+    } else {
+        "clang out_1.o -o final_exe -L external_instrumentation/target/release/deps -lexternal_instrumentation -lpthread".to_string()
+    };
+    run_command("Linking Final Executable", &link_cmd);
+    println!("External Module Instrumentation Completed!!!");
+    println!("---------------------------------------------------------------------------");
+    println!("---------------------------------------------------------------------------\n\n");
+
+    // Step 6: Run the program with given thread count
+    println!("---------------------------------------------------------------------------");
+    println!("--------------------------------Step 6-------------------------------------");
+    println!("---------------------------------------------------------------------------");
     let run_cmd = format!(
-        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=/home/dongin/llvm-plugin-rs/external_instrumentation/target/release/deps ./final_exe {}",
+        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe {}",
         args.instr, args.threads
     );
     run_command("Executing Final Binary", &run_cmd);
 }
 
+/// Helper to run shell commands
 fn run_command(step: &str, command: &str) {
-    println!("---------------------------------------------------------------------------");
-    println!("{}", step);
+    println!("==> {}", step);
     let output = Command::new("sh")
         .arg("-c")
         .arg(command)
         .output()
-        .expect("Failed to execute command");
+        .expect("failed to run command");
 
     if !output.stdout.is_empty() {
         println!("{}", String::from_utf8_lossy(&output.stdout));
@@ -90,100 +135,7 @@ fn run_command(step: &str, command: &str) {
     }
 }
 
+
 //cargo build -p llvm-plugin-cli
 //==========================================================================================
 
-// use clap::{Parser};
-// use std::process::Command;
-
-// #[derive(Parser)]
-// #[command(name = "dyin", version = "1.0", about = "Dynamic Instrumentation CLI for LLVM")]
-// struct Cli {
-//     /// Number of threads for pthread execution (default: 2)
-//     #[arg(short = 't', long, default_value_t = 2)]
-//     threads: u32,
-
-//     /// Instrumentation mode: store, load, or both (default: both)
-//     #[arg(short = 'i', long, default_value = "both")]
-//     instr: String,
-// }
-
-// fn main() {
-//     let args = Cli::parse();
-
-//     println!("Running with {} threads", args.threads);
-//     println!("Instrumentation mode: {}", args.instr);
-
-//     // Step 1: Compile pthread.c with the given thread count
-//     // let clang_cmd = format!(
-//     //     "clang -DNUM_THREADS={} -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll",
-//     //     args.threads
-//     // );
-//     let clang_cmd = "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll".to_string();
-//     run_command("Compiling pthread.c", &clang_cmd);
-
-//     // Step 2: Compile LLVM Pass
-//     run_command("Building LLVM Pass", "cargo b --example concurrent-write --features llvm17-0");
-
-//     // Step 3: Apply LLVM Pass with selected instrumentation
-//     let pass_cmd = format!(
-//         "opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so --passes=concurrent-write in_1.ll -S -o out_1.ll --instr={}",
-//         args.instr
-//     );
-//     run_command("Applying LLVM Pass", &pass_cmd);
-
-//     // Step 4: Convert LLVM IR to Object file
-//     run_command("Generating Object File", "llc -relocation-model=pic -filetype=obj out_1.ll -o out_1.o");
-
-//     // Step 5: Link with External Instrumentation
-//     run_command(
-//         "Linking Final Executable",
-//         "clang out_1.o -o final_exe -L /home/dongin/external_instrumentation/target/release -lexternal_instrumentation -lpthread"
-//     );
-
-//     // Step 6: Execute the final binary
-//     // run_command("Executing Final Binary", "LD_LIBRARY_PATH=/home/dongin/external_instrumentation/target/release ./final_exe");
-//     let execute_cmd = format!("./final_exe {}", args.threads);
-//     run_command("Executing Final Binary", &execute_cmd);
-// }
-
-// /// Helper function to run shell commands
-// fn run_command(step: &str, command: &str) {
-//     println!("----------------------------------------");
-//     println!("{}", step);
-    
-//     let output = Command::new("sh")
-//         .arg("-c")
-//         .arg(command)
-//         .output()
-//         .expect("Failed to execute command");
-
-//     if !output.stdout.is_empty() {
-//         println!("{}", String::from_utf8_lossy(&output.stdout));
-//     }
-//     if !output.stderr.is_empty() {
-//         eprintln!("{}", String::from_utf8_lossy(&output.stderr));
-//     }
-// }
-
-
-
-// // use clap::{Parser};
-
-// // #[derive(Parser)]
-// // #[command(name = "LLVM Plugin CLI", version = "1.0", about = "A CLI for LLVM Plugin Management")]
-// // struct Cli {
-// //     /// Input LLVM IR file
-// //     #[arg(short, long)]
-// //     input: String,
-
-// //     /// Output file name
-// //     #[arg(short, long, default_value = "out.ll")]
-// //     output: String,
-// // }
-
-// // fn main() {
-// //     let args = Cli::parse();
-// //     println!("Processing LLVM IR: {}", args.input);
-// //     println!("Saving output to: {}", args.output);
-// // }

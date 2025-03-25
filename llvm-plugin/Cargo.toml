@@ -95,3 +95,8 @@ path = "../examples/strings.rs"
 name = "concurrent-write"
 crate-type = ["cdylib"]
 path = "../examples/concurrent_write.rs"
+
+[[example]]
+name = "concurrent-write-inline"
+crate-type = ["cdylib"]
+path = "../examples/concurrent_write_inline.rs"

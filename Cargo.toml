@@ -1,3 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["llvm-plugin", "llvm-plugin-cli", "llvm-plugin-macros", "external_instrumentation"]
+members = ["llvm-plugin", "llvm-plugin-cli", "llvm-plugin-macros", "external_instrumentation", "external_instrumentation_inline"]
+
+[profile.release]
+panic = "abort"
