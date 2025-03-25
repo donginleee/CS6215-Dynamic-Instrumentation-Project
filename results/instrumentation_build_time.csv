@@ -1,0 +1,15 @@
+Threads,Mode,BuildTime(s)
+1,inline,0.389
+2,inline,0.389
+4,inline,0.38
+8,inline,0.35
+16,inline,0.371
+32,inline,0.362
+64,inline,0.335
+1,external,0.288
+2,external,0.312
+4,external,0.295
+8,external,0.315
+16,external,0.261
+32,external,0.312
+64,external,0.304

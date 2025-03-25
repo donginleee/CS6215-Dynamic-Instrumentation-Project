@@ -1,0 +1,163 @@
+Running with 8 threads
+Instrumentation mode: both
+Inline instrumentation: true
+===========================================================================
+===========================================================================
+=====================CS6215 Dynamic Instrumentation Project================
+==========================Developed by Dongin Lee==========================
+===========================================================================
+===========================================================================
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 1-------------------------------------
+---------------------------------------------------------------------------
+==> Compiling pthread.c
+Compilation of Source Code Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 2-------------------------------------
+---------------------------------------------------------------------------
+==> Building LLVM Pass
+Compilation of LLVM Pass Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 3-------------------------------------
+---------------------------------------------------------------------------
+==> Running instrumentation pass
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = true
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = true
+
+==> Linking .bc and IR
+==> Running optimizer for inlining
+Optimization LLVM Pass Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 4-------------------------------------
+---------------------------------------------------------------------------
+==> Generating Object File
+IR to Object File Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 5-------------------------------------
+---------------------------------------------------------------------------
+==> Linking Final Executable
+External Module Instrumentation Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 6-------------------------------------
+---------------------------------------------------------------------------
+==> Executing Final Binary
+[Instrumentation] Load at addr=0x7ffc0178b5f0, tid=130785624098624, no prior store recorded
+[Instrumentation] Store at addr=0x61d8a6256060, tid=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+Creating 8 threads...
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b420, tid=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b424, tid=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b428, tid=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b42c, tid=130785624098624
+[Instrumentation] Load at addr=0x7ffc0178b420, tid=130785621308992, last_modified_by=130785624098624
+[Instrumentation] Store at addr=0x61d8a6256070, tid=130785621308992
+Thread 1 wrote shared_var = 1
+[Instrumentation] Store at addr=0x61d8a6256074, tid=130785621308992
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785621308992, last_modified_by=the same thread
+Thread 1 wrote atomic_var = 1
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b430, tid=130785624098624
+[Instrumentation] Load at addr=0x7ffc0178b424, tid=130785612916288, last_modified_by=130785624098624
+[Instrumentation] Store at addr=0x61d8a6256070, tid=130785612916288
+Thread 2 wrote shared_var = 2
+[Instrumentation] Store at addr=0x61d8a6256074, tid=130785612916288
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785612916288, last_modified_by=the same thread
+Thread 2 wrote atomic_var = 2
+[Instrumentation] Load at addr=0x7ffc0178b428, tid=130785604523584, last_modified_by=130785624098624
+[Instrumentation] Store at addr=0x61d8a6256070, tid=130785604523584
+Thread 3 wrote shared_var = 3
+[Instrumentation] Store at addr=0x61d8a6256074, tid=130785604523584
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785604523584, last_modified_by=the same thread
+Thread 3 wrote atomic_var = 3
+[Instrumentation] Load at addr=0x7ffc0178b42c, tid=130785596130880, last_modified_by=130785624098624
+[Instrumentation] Store at addr=0x61d8a6256070, tid=130785596130880
+Thread 4 wrote shared_var = 4
+[Instrumentation] Store at addr=0x61d8a6256074, tid=130785596130880
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785596130880, last_modified_by=the same thread
+Thread 4 wrote atomic_var = 4
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b434, tid=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b438, tid=130785624098624
+[Instrumentation] Load at addr=0x7ffc0178b430, tid=130785587738176, last_modified_by=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256070, tid=130785587738176, last_modified_by=130785596130880
+Thread 5 read shared_var = 4
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785587738176, last_modified_by=130785596130880
+Thread 5 read atomic_var = 4
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffc0178b43c, tid=130785624098624
+[Instrumentation] Load at addr=0x7ffc0178b434, tid=130785579345472, last_modified_by=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256070, tid=130785579345472, last_modified_by=130785596130880
+Thread 6 read shared_var = 4
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785579345472, last_modified_by=130785596130880
+Thread 6 read atomic_var = 4
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b440, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b448, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b450, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b458, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b460, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b468, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x7ffc0178b438, tid=130785570952768, last_modified_by=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x61d8a6256070, tid=130785570952768, last_modified_by=130785596130880
+[Instrumentation] Load at addr=0x7ffc0178b470, tid=130785624098624, no prior store recorded
+Thread 7 read shared_var = 4
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785570952768, last_modified_by=130785596130880
+Thread 7 read atomic_var = 4
+[Instrumentation] Load at addr=0x7ffc0178b43c, tid=130785562560064, last_modified_by=130785624098624
+[Instrumentation] Load at addr=0x61d8a6256070, tid=130785562560064, last_modified_by=130785596130880
+Thread 8 read shared_var = 4
+[Instrumentation] Load at addr=0x61d8a6256074, tid=130785562560064, last_modified_by=130785596130880
+Thread 8 read atomic_var = 4
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffc0178b478, tid=130785624098624, no prior store recorded
+[Instrumentation] Load at addr=0x61d8a6256060, tid=130785624098624, last_modified_by=the same thread
+All threads completed.
+
+Binary Exeuction Finished!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+===========================================================================
+====================== Instrumentation Time Summary =======================
+Instrumentation Build Time : 0.350 secs
+Execution Time             : 0.002 secs
+===========================================================================

@@ -1,0 +1,15 @@
+Threads,Mode,ExecutionTime(s)
+1,inline,0.002
+2,inline,0.003
+4,inline,0.003
+8,inline,0.002
+16,inline,0.003
+32,inline,0.004
+64,inline,0.005
+1,external,0.003
+2,external,0.003
+4,external,0.003
+8,external,0.004
+16,external,0.003
+32,external,0.005
+64,external,0.006

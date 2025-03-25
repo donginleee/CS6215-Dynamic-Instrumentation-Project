@@ -1,5 +1,6 @@
 use clap::Parser;
 use std::process::Command;
+use std::time::Instant;
 
 /// CLI tool interface for dynamic instrumentation
 #[derive(Parser)]
@@ -32,12 +33,11 @@ fn main() {
     };
 
     println!("===========================================================================");    
-    println!("===============================CS6215======================================");    
-    println!("=======================Dynamic Instrumentation Project=====================");
+    println!("===========================================================================");    
+    println!("=====================CS6215 Dynamic Instrumentation Project================");
     println!("==========================Developed by Dongin Lee==========================");
     println!("===========================================================================");
     println!("===========================================================================\n\n");
-    
     
     // Step 1: Compile source into LLVM IR
     println!("---------------------------------------------------------------------------");
@@ -48,6 +48,7 @@ fn main() {
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
 
+    let build_start = Instant::now();
     // Step 2: Build instrumentation pass
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 2-------------------------------------");
@@ -106,16 +107,29 @@ fn main() {
     println!("External Module Instrumentation Completed!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
+    let build_duration = build_start.elapsed();
 
     // Step 6: Run the program with given thread count
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 6-------------------------------------");
     println!("---------------------------------------------------------------------------");
+    let run_start = Instant::now();
     let run_cmd = format!(
         "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe {}",
         args.instr, args.threads
     );
     run_command("Executing Final Binary", &run_cmd);
+    let run_duration = run_start.elapsed();
+    println!("Binary Exeuction Finished!!!");
+    println!("---------------------------------------------------------------------------");
+    println!("---------------------------------------------------------------------------\n\n");
+
+    // Output timing summary
+    println!("===========================================================================");
+    println!("====================== Instrumentation Time Summary =======================");
+    println!("Instrumentation Build Time : {:.3} secs", build_duration.as_secs_f64());
+    println!("Execution Time             : {:.3} secs", run_duration.as_secs_f64());
+    println!("===========================================================================");
 }
 
 /// Helper to run shell commands

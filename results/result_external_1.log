@@ -1,0 +1,94 @@
+Running with 1 threads
+Instrumentation mode: both
+Inline instrumentation: false
+===========================================================================
+===========================================================================
+=====================CS6215 Dynamic Instrumentation Project================
+==========================Developed by Dongin Lee==========================
+===========================================================================
+===========================================================================
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 1-------------------------------------
+---------------------------------------------------------------------------
+==> Compiling pthread.c
+Compilation of Source Code Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 2-------------------------------------
+---------------------------------------------------------------------------
+==> Building LLVM Pass
+Compilation of LLVM Pass Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 3-------------------------------------
+---------------------------------------------------------------------------
+==> Running instrumentation pass
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = false
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = false
+
+Optimization LLVM Pass Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 4-------------------------------------
+---------------------------------------------------------------------------
+==> Generating Object File
+IR to Object File Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 5-------------------------------------
+---------------------------------------------------------------------------
+==> Linking Final Executable
+External Module Instrumentation Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 6-------------------------------------
+---------------------------------------------------------------------------
+==> Executing Final Binary
+[Instrumentation] Load at addr=0x7ffdb3aece20, tid=125208826746752, no prior store recorded
+[Instrumentation] Store at addr=0x64a7beb55070, tid=125208826746752
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffdb3aecca0, tid=125208826746752
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffdb3aeccb0, tid=125208826746752, no prior store recorded
+[Instrumentation] Load at addr=0x7ffdb3aecca0, tid=125208824247872, last_modified_by=125208826746752
+[Instrumentation] Load at addr=0x64a7beb55078, tid=125208824247872, no prior store recorded
+[Instrumentation] Load at addr=0x64a7beb5507c, tid=125208824247872, no prior store recorded
+[Instrumentation] Load at addr=0x64a7beb55070, tid=125208826746752, last_modified_by=the same thread
+Creating 1 threads...
+Thread 1 read shared_var = 0
+Thread 1 read atomic_var = 0
+All threads completed.
+
+Binary Exeuction Finished!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+===========================================================================
+====================== Instrumentation Time Summary =======================
+Instrumentation Build Time : 0.288 secs
+Execution Time             : 0.003 secs
+===========================================================================

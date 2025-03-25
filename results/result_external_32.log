@@ -1,0 +1,389 @@
+Running with 32 threads
+Instrumentation mode: both
+Inline instrumentation: false
+===========================================================================
+===========================================================================
+=====================CS6215 Dynamic Instrumentation Project================
+==========================Developed by Dongin Lee==========================
+===========================================================================
+===========================================================================
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 1-------------------------------------
+---------------------------------------------------------------------------
+==> Compiling pthread.c
+Compilation of Source Code Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 2-------------------------------------
+---------------------------------------------------------------------------
+==> Building LLVM Pass
+Compilation of LLVM Pass Complete!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 3-------------------------------------
+---------------------------------------------------------------------------
+==> Running instrumentation pass
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = false
+[pass debug] INSTRUMENTATION_MODE = both
+[pass debug] INSTRUMENTATION_INLINE = false
+
+Optimization LLVM Pass Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 4-------------------------------------
+---------------------------------------------------------------------------
+==> Generating Object File
+IR to Object File Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 5-------------------------------------
+---------------------------------------------------------------------------
+==> Linking Final Executable
+External Module Instrumentation Completed!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------
+--------------------------------Step 6-------------------------------------
+---------------------------------------------------------------------------
+==> Executing Final Binary
+[Instrumentation] Load at addr=0x7ffccc310af0, tid=135070952933248, no prior store recorded
+[Instrumentation] Store at addr=0x5a5d946c7070, tid=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310810, tid=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310814, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310810, tid=135070950094400, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070950094400
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070950094400
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310818, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310814, tid=135070941701696, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070941701696
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070941701696
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070941701696, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070950094400, last_modified_by=135070941701696
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31081c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310818, tid=135070933308992, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070933308992
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070933308992
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070933308992, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310820, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31081c, tid=135070924916288, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070924916288
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070924916288
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070924916288, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310824, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310820, tid=135070916523584, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070916523584
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070916523584
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070916523584, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310828, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310824, tid=135070908130880, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070908130880
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070908130880
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070908130880, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310828, tid=135070899738176, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070899738176
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31082c, tid=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070899738176
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070899738176, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310830, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31082c, tid=135070815876672, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070815876672
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070815876672
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070815876672, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310834, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310830, tid=135070807483968, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070807483968
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070807483968
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070807483968, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310838, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310834, tid=135070799091264, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070799091264
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070799091264
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070799091264, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31083c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310838, tid=135070790698560, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070790698560
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070790698560
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070790698560, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310840, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31083c, tid=135070782305856, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070782305856
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070782305856
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070782305856, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310844, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310840, tid=135070773913152, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070773913152
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070773913152
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070773913152, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310848, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310844, tid=135070765520448, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070765520448
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070765520448
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070765520448, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31084c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310848, tid=135070757127744, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070757127744
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070757127744
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070757127744, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310850, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31084c, tid=135070748735040, last_modified_by=135070952933248
+[Instrumentation] Store at addr=0x5a5d946c7078, tid=135070748735040
+[Instrumentation] Store at addr=0x5a5d946c707c, tid=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070748735040, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310854, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310850, tid=135070740342336, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070740342336, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070740342336, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310858, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310854, tid=135070731949632, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070731949632, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070731949632, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31085c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310858, tid=135070723556928, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070723556928, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070723556928, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310860, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31085c, tid=135070715164224, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070715164224, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070715164224, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310864, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310860, tid=135070706771520, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070706771520, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070706771520, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310868, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310864, tid=135070698378816, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070698378816, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070698378816, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31086c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310868, tid=135070689986112, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070689986112, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070689986112, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310870, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31086c, tid=135070681593408, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070681593408, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070681593408, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310874, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310870, tid=135070673200704, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070673200704, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070673200704, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310878, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310874, tid=135070664808000, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070664808000, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070664808000, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31087c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310878, tid=135070656415296, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070656415296, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070656415296, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310880, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc31087c, tid=135070648022592, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070648022592, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070648022592, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310884, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310880, tid=135070639629888, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070639629888, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070639629888, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc310888, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310884, tid=135070631237184, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070631237184, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070631237184, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7ffccc31088c, tid=135070952933248
+[Instrumentation] Load at addr=0x7ffccc310888, tid=135070622844480, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070622844480, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070622844480, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310890, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x7ffccc31088c, tid=135070614451776, last_modified_by=135070952933248
+[Instrumentation] Load at addr=0x5a5d946c7078, tid=135070614451776, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c707c, tid=135070614451776, last_modified_by=135070748735040
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310898, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108a0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108a8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108b0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108b8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108c0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108c8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108d0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108d8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108e0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108e8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108f0, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc3108f8, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310900, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310908, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310910, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310918, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310920, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310928, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310930, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310938, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310940, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310948, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310950, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310958, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310960, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310968, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310970, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310978, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310980, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7ffccc310988, tid=135070952933248, no prior store recorded
+[Instrumentation] Load at addr=0x5a5d946c7070, tid=135070952933248, last_modified_by=the same thread
+Creating 32 threads...
+Thread 1 wrote shared_var = 1
+Thread 2 wrote shared_var = 2
+Thread 2 wrote atomic_var = 2
+Thread 1 wrote atomic_var = 2
+Thread 3 wrote shared_var = 3
+Thread 3 wrote atomic_var = 3
+Thread 4 wrote shared_var = 4
+Thread 4 wrote atomic_var = 4
+Thread 5 wrote shared_var = 5
+Thread 5 wrote atomic_var = 5
+Thread 6 wrote shared_var = 6
+Thread 6 wrote atomic_var = 6
+Thread 7 wrote shared_var = 7
+Thread 7 wrote atomic_var = 7
+Thread 8 wrote shared_var = 8
+Thread 8 wrote atomic_var = 8
+Thread 9 wrote shared_var = 9
+Thread 9 wrote atomic_var = 9
+Thread 10 wrote shared_var = 10
+Thread 10 wrote atomic_var = 10
+Thread 11 wrote shared_var = 11
+Thread 11 wrote atomic_var = 11
+Thread 12 wrote shared_var = 12
+Thread 12 wrote atomic_var = 12
+Thread 13 wrote shared_var = 13
+Thread 13 wrote atomic_var = 13
+Thread 14 wrote shared_var = 14
+Thread 14 wrote atomic_var = 14
+Thread 15 wrote shared_var = 15
+Thread 15 wrote atomic_var = 15
+Thread 16 wrote shared_var = 16
+Thread 16 wrote atomic_var = 16
+Thread 17 read shared_var = 16
+Thread 17 read atomic_var = 16
+Thread 18 read shared_var = 16
+Thread 18 read atomic_var = 16
+Thread 19 read shared_var = 16
+Thread 19 read atomic_var = 16
+Thread 20 read shared_var = 16
+Thread 20 read atomic_var = 16
+Thread 21 read shared_var = 16
+Thread 21 read atomic_var = 16
+Thread 22 read shared_var = 16
+Thread 22 read atomic_var = 16
+Thread 23 read shared_var = 16
+Thread 23 read atomic_var = 16
+Thread 24 read shared_var = 16
+Thread 24 read atomic_var = 16
+Thread 25 read shared_var = 16
+Thread 25 read atomic_var = 16
+Thread 26 read shared_var = 16
+Thread 26 read atomic_var = 16
+Thread 27 read shared_var = 16
+Thread 27 read atomic_var = 16
+Thread 28 read shared_var = 16
+Thread 28 read atomic_var = 16
+Thread 29 read shared_var = 16
+Thread 29 read atomic_var = 16
+Thread 30 read shared_var = 16
+Thread 30 read atomic_var = 16
+Thread 31 read shared_var = 16
+Thread 31 read atomic_var = 16
+Thread 32 read shared_var = 16
+Thread 32 read atomic_var = 16
+All threads completed.
+
+Binary Exeuction Finished!!!
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+
+===========================================================================
+====================== Instrumentation Time Summary =======================
+Instrumentation Build Time : 0.312 secs
+Execution Time             : 0.005 secs
+===========================================================================
