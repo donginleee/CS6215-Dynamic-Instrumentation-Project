@@ -35,28 +35,28 @@ fn main() {
     println!("===========================================================================");    
     println!("===========================================================================");    
     println!("=====================CS6215 Dynamic Instrumentation Project================");
-    println!("==========================Developed by Dongin Lee==========================");
     println!("===========================================================================");
     println!("===========================================================================\n\n");
     
-    // Step 1: Compile source into LLVM IR
-    println!("---------------------------------------------------------------------------");
-    println!("--------------------------------Step 1-------------------------------------");
-    println!("---------------------------------------------------------------------------");
-    run_command("Compiling pthread.c", "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll");
-    println!("Compilation of Source Code Complete!!!");
-    println!("---------------------------------------------------------------------------");
-    println!("---------------------------------------------------------------------------\n\n");
+    //// Step 1: Compile source into LLVM IR
+    // println!("---------------------------------------------------------------------------");
+    // println!("--------------------------------Step 1-------------------------------------");
+    // println!("---------------------------------------------------------------------------");
+    // run_command("Compiling pthread.c", "clang -fPIC -O1 -S -emit-llvm pthread.c -o in_1.ll");
+    // println!("Compilation of Source Code Complete!!!");
+    // println!("---------------------------------------------------------------------------");
+    // println!("---------------------------------------------------------------------------\n\n");
 
-    let build_start = Instant::now();
     // Step 2: Build instrumentation pass
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 2-------------------------------------");
     println!("---------------------------------------------------------------------------");
+    let build_start2 = Instant::now();
     run_command(
         "Building LLVM Pass",
         &format!("{inline_env} INSTRUMENTATION_MODE={} cargo build --example concurrent-write --features llvm17-0", args.instr)
     );
+    let build_duration2 = build_start2.elapsed();
     println!("Compilation of LLVM Pass Complete!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
@@ -65,6 +65,8 @@ fn main() {
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 3-------------------------------------");
     println!("---------------------------------------------------------------------------");
+    let build_start3 = Instant::now();
+
     let pass_cmd = format!(
         "INSTRUMENTATION_MODE={} INSTRUMENTATION_INLINE={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
         --passes=concurrent-write in_1.ll -S -o out_1.ll",
@@ -81,6 +83,8 @@ fn main() {
         let inline_opt_cmd = "opt -passes=inline linked.ll -S -o out_1.ll".to_string();
         run_command("Running optimizer for inlining", &inline_opt_cmd);
     }
+    let build_duration3 = build_start3.elapsed();
+
     println!("Optimization LLVM Pass Completed!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
@@ -89,7 +93,9 @@ fn main() {
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 4-------------------------------------");
     println!("---------------------------------------------------------------------------");
+    let build_start4 = Instant::now();
     run_command("Generating Object File", "llc -relocation-model=pic -filetype=obj out_1.ll -o out_1.o");
+    let build_duration4 = build_start4.elapsed();
     println!("IR to Object File Completed!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
@@ -98,24 +104,31 @@ fn main() {
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 5-------------------------------------");
     println!("---------------------------------------------------------------------------");
+    let build_start5 = Instant::now();
     let link_cmd = if args.inline {
         "clang out_1.o -o final_exe -lpthread".to_string()
     } else {
         "clang out_1.o -o final_exe -L external_instrumentation/target/release/deps -lexternal_instrumentation -lpthread".to_string()
     };
+    let build_duration5 = build_start5.elapsed();
+
     run_command("Linking Final Executable", &link_cmd);
     println!("External Module Instrumentation Completed!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
-    let build_duration = build_start.elapsed();
 
     // Step 6: Run the program with given thread count
     println!("---------------------------------------------------------------------------");
     println!("--------------------------------Step 6-------------------------------------");
     println!("---------------------------------------------------------------------------");
     let run_start = Instant::now();
+    // let run_cmd = format!(
+    //     "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe {}",
+    //     args.instr, args.threads
+    // );
     let run_cmd = format!(
-        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe {}",
+        "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps \
+        ./final_exe file_example_AVI_640_800kB.avi -w 640 -h 360 --threads={} -o dest.vpx",
         args.instr, args.threads
     );
     run_command("Executing Final Binary", &run_cmd);
@@ -123,6 +136,8 @@ fn main() {
     println!("Binary Exeuction Finished!!!");
     println!("---------------------------------------------------------------------------");
     println!("---------------------------------------------------------------------------\n\n");
+
+    let build_duration = build_duration2 + build_duration3 + build_duration4 + build_duration5;
 
     // Output timing summary
     println!("===========================================================================");

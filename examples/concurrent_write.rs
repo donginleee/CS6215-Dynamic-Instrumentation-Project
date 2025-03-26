@@ -4,7 +4,7 @@ use llvm_plugin::inkwell::module::Module;
 use llvm_plugin::{
     LlvmModulePass, ModuleAnalysisManager, PassBuilder, PipelineParsing, PreservedAnalyses,
 };
-use llvm_plugin::inkwell::AddressSpace;
+// use llvm_plugin::inkwell::AddressSpace;
 
 
 /// Register this file as an LLVM plugin named "concurrent-write"

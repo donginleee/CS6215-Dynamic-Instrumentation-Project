@@ -65,33 +65,33 @@ External Module Instrumentation Completed!!!
 --------------------------------Step 6-------------------------------------
 ---------------------------------------------------------------------------
 ==> Executing Final Binary
-[Instrumentation] Load at addr=0x7ffec876f640, tid=129649156560704, no prior store recorded
-[Instrumentation] Store at addr=0x5c111d9ae060, tid=129649156560704
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7fff8bde5a10, tid=131319476213568, no prior store recorded
+[Instrumentation] Store at addr=0x64893318b060, tid=131319476213568
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
 Creating 2 threads...
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Store at addr=0x7ffec876f4b0, tid=129649156560704
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Store at addr=0x7ffec876f4b4, tid=129649156560704
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Load at addr=0x7ffec876f4c0, tid=129649156560704, no prior store recorded
-[Instrumentation] Load at addr=0x7ffec876f4b0, tid=129649153668672, last_modified_by=129649156560704
-[Instrumentation] Store at addr=0x5c111d9ae070, tid=129649153668672
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7fff8bde5880, tid=131319476213568
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x7fff8bde5884, tid=131319476213568
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7fff8bde5890, tid=131319476213568, no prior store recorded
+[Instrumentation] Load at addr=0x7fff8bde5884, tid=131319463929408, last_modified_by=131319476213568
+[Instrumentation] Load at addr=0x64893318b070, tid=131319463929408, no prior store recorded
+Thread 2 read shared_var = 0
+[Instrumentation] Load at addr=0x64893318b074, tid=131319463929408, no prior store recorded
+Thread 2 read atomic_var = 0
+[Instrumentation] Load at addr=0x7fff8bde5880, tid=131319472322112, last_modified_by=131319476213568
+[Instrumentation] Store at addr=0x64893318b070, tid=131319472322112
 Thread 1 wrote shared_var = 1
-[Instrumentation] Store at addr=0x5c111d9ae074, tid=129649153668672
-[Instrumentation] Load at addr=0x5c111d9ae074, tid=129649153668672, last_modified_by=the same thread
+[Instrumentation] Store at addr=0x64893318b074, tid=131319472322112
+[Instrumentation] Load at addr=0x64893318b074, tid=131319472322112, last_modified_by=the same thread
 Thread 1 wrote atomic_var = 1
-[Instrumentation] Load at addr=0x7ffec876f4b4, tid=129649145275968, last_modified_by=129649156560704
-[Instrumentation] Load at addr=0x5c111d9ae070, tid=129649145275968, last_modified_by=129649153668672
-Thread 2 read shared_var = 1
-[Instrumentation] Load at addr=0x5c111d9ae074, tid=129649145275968, last_modified_by=129649153668672
-Thread 2 read atomic_var = 1
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
-[Instrumentation] Load at addr=0x7ffec876f4c8, tid=129649156560704, no prior store recorded
-[Instrumentation] Load at addr=0x5c111d9ae060, tid=129649156560704, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
+[Instrumentation] Load at addr=0x7fff8bde5898, tid=131319476213568, no prior store recorded
+[Instrumentation] Load at addr=0x64893318b060, tid=131319476213568, last_modified_by=the same thread
 All threads completed.
 
 Binary Exeuction Finished!!!
@@ -101,6 +101,6 @@ Binary Exeuction Finished!!!
 
 ===========================================================================
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.389 secs
-Execution Time             : 0.003 secs
+Instrumentation Build Time : 0.383 secs
+Execution Time             : 0.002 secs
 ===========================================================================
