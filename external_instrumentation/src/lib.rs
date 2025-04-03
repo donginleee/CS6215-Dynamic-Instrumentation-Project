@@ -32,6 +32,9 @@ pub extern "C" fn get_thread_id() -> u64 {
 // Logs a store operation if instrumentation mode includes "store"
 #[unsafe(no_mangle)]
 pub extern "C" fn log_store(tid: u64, addr: *mut c_void) {
+    if addr.is_null() {
+        return;
+    }
     if INSTR_MODE.as_str() == "store" || INSTR_MODE.as_str() == "both" {
         let mut map = LAST_WRITE_MAP.lock().unwrap();
         map.insert(addr as usize, tid);
@@ -50,6 +53,9 @@ pub extern "C" fn log_store(tid: u64, addr: *mut c_void) {
 /// Logs a load operation if instrumentation mode includes "load"
 #[unsafe(no_mangle)]
 pub extern "C" fn log_load(tid: u64, addr: *mut c_void) {
+    if addr.is_null() {
+        return;
+    }
     if INSTR_MODE.as_str() == "load" || INSTR_MODE.as_str() == "both" {
         let map = LAST_WRITE_MAP.lock().unwrap();
         if let Some(&last_tid) = map.get(&(addr as usize)) {
