@@ -1,16 +1,9 @@
-
 use std::collections::HashMap;
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 use std::ffi::c_void;
-// use std::ffi::{c_void, CStr};
-// use std::os::raw::{c_char, c_ulonglong};
+use libc::malloc_usable_size;
 
-// Shared map to track the last thread that wrote to each memory address
-// lazy_static! {
-//     static ref LAST_WRITE_MAP: Mutex<HashMap<usize, u64>> = Mutex::new(HashMap::new());
-//     static ref INSTR_MODE: String = std::env::var("INSTRUMENTATION_MODE").unwrap_or("both".to_string());
-// }
 lazy_static! {
     static ref LAST_WRITE_MAP: Mutex<HashMap<usize, u64>> = Mutex::new(HashMap::new());
     static ref INSTR_MODE: String = {
@@ -20,78 +13,86 @@ lazy_static! {
     };
 }
 
-
 /// Returns the calling thread's unique ID
 #[unsafe(no_mangle)]
-pub extern "C" fn get_thread_id() -> u64 {
-    // Use pthread_self() from libc to get the current thread ID.
-    // Casting pthread_t to u64 (platform-dependent conversion)
-    unsafe { libc::pthread_self() as u64 }
+pub unsafe extern "C" fn get_thread_id() -> u64 {
+    let tid = libc::pthread_self() as u64;
+    println!("[debug] get_thread_id() called, tid = {}", tid);
+    tid
 }
 
-// Logs a store operation if instrumentation mode includes "store"
+/// Logs a store operation if instrumentation mode includes "store"
 #[unsafe(no_mangle)]
-pub extern "C" fn log_store(tid: u64, addr: *mut c_void) {
+pub unsafe extern "C" fn log_store(tid: u64, addr: *mut c_void) {
     if addr.is_null() {
+        println!("[debug] log_store: NULL address, skipping");
         return;
     }
+
+    let addr_val = addr as usize;
+
+    // Avoid inserting invalid addresses (e.g., (void*)1, (void*)2)
+    if addr_val < 0x1000 {
+        println!("[debug] log_store: suspicious address {:#x}, skipping", addr_val);
+        return;
+    }
+
+    // Check if memory is still valid
+    if malloc_usable_size(addr) == 0 {
+        println!("[debug] log_store: freed or invalid memory at {:#x}, skipping", addr_val);
+        return;
+    }
+
     if INSTR_MODE.as_str() == "store" || INSTR_MODE.as_str() == "both" {
         let mut map = LAST_WRITE_MAP.lock().unwrap();
-        map.insert(addr as usize, tid);
-        println!("[Instrumentation] Store at addr={:#x}, tid={}", addr as usize, tid);
+        map.insert(addr_val, tid);
+        println!("[Instrumentation] Store at addr={:#x}, tid={}", addr_val, tid);
     }
 }
-// pub extern "C" fn log_store(tid: u64, addr: *mut c_void) {
-//     let mode = std::env::var("INSTRUMENTATION_MODE").unwrap_or("both".to_string());
-//     if mode == "load" {
-//         let mut map = LAST_WRITE_MAP.lock().unwrap();
-//         map.insert(addr as usize, tid);
-//         println!("[Instrumentation] Store at addr={:#x}, tid={}", addr as usize, tid);
-//     }
-// }
 
 /// Logs a load operation if instrumentation mode includes "load"
 #[unsafe(no_mangle)]
-pub extern "C" fn log_load(tid: u64, addr: *mut c_void) {
+pub unsafe extern "C" fn log_load(tid: u64, addr: *mut c_void) {
     if addr.is_null() {
+        println!("[debug] log_load: NULL address, skipping");
         return;
     }
+
+    let addr_val = addr as usize;
+
+    // Avoid reading from invalid addresses
+    if addr_val < 0x1000 {
+        println!("[debug] log_load: suspicious address {:#x}, skipping", addr_val);
+        return;
+    }
+
+    // Check if memory is still valid
+    if malloc_usable_size(addr) == 0 {
+        println!("[debug] log_load: freed or invalid memory at {:#x}, skipping", addr_val);
+        return;
+    }
+
     if INSTR_MODE.as_str() == "load" || INSTR_MODE.as_str() == "both" {
         let map = LAST_WRITE_MAP.lock().unwrap();
-        if let Some(&last_tid) = map.get(&(addr as usize)) {
+        if let Some(&last_tid) = map.get(&addr_val) {
             if last_tid != tid {
                 println!(
                     "[Instrumentation] Load at addr={:#x}, tid={}, last_modified_by={}",
-                    addr as usize, tid, last_tid
+                    addr_val, tid, last_tid
                 );
             } else {
                 println!(
                     "[Instrumentation] Load at addr={:#x}, tid={}, last_modified_by=the same thread",
-                    addr as usize, tid
+                    addr_val, tid
                 );
             }
         } else {
             println!(
                 "[Instrumentation] Load at addr={:#x}, tid={}, no prior store recorded",
-                addr as usize, tid
+                addr_val, tid
             );
         }
     }
 }
 
-// pub extern "C" fn log_load(tid: u64, addr: *mut c_void) {
-//     let mode = std::env::var("INSTRUMENTATION_MODE").unwrap_or("both".to_string());
-//     if mode == "store" {
-//         let map = LAST_WRITE_MAP.lock().unwrap();
-//         if let Some(&last_tid) = map.get(&(addr as usize)) {
-//             if last_tid != tid {
-//                 println!(
-//                     "[Instrumentation] Load at addr={:#x}, tid={}, last_modified_by={}",
-//                     addr as usize, tid, last_tid
-//                 );
-//             }
-//         }
-//     }
-// }
-
-// #cargo build -p external_instrumentation --release
+// cargo build -p external_instrumentation --release

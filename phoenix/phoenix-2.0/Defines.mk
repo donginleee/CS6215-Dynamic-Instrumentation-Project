@@ -36,9 +36,10 @@ endif
 
 ifeq ($(OSTYPE),Linux)
 OS = -D_LINUX_
-CC ?= gcc
+CC == clang
 #DEBUG = -g
-CFLAGS = -Wall $(OS) $(DEBUG) -O3
+CFLAGS = -Wall $(OS) $(DEBUG) -O1 -g -fno-inline -fPIC -emit-llvm -S
+#-Wall $(OS) $(DEBUG) -O3
 LIBS = -pthread
 endif
 

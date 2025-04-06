@@ -27,20 +27,18 @@ typedef struct {
 
 typedef struct {
     int x_loc;
-    int y_loc;
     int value;
 } mm_key_t;
 
 void *matrixmult_map(void *args_in);
 
-// ✅ num_procs 인자 추가
 void matrixmult_splitter(void *data_in, int num_procs)
 {
     pthread_attr_t attr;
-    pthread_t * tid;
+    pthread_t *tid;
     int i;
 
-    mm_data_t * data = (mm_data_t *)data_in; 
+    mm_data_t *data = (mm_data_t *)data_in;
 
     assert(data_in);    
     assert(data->matrix_len >= 0);
@@ -56,7 +54,7 @@ void matrixmult_splitter(void *data_in, int num_procs)
 
     int req_rows = data->matrix_len / num_procs;
 
-    for(i=0; i<num_procs; i++)
+    for (i = 0; i < num_procs; i++)
     {
         map_args_t* out = (map_args_t*)malloc(sizeof(map_args_t));
         mm_data_t* data_out = (mm_data_t*)malloc(sizeof(mm_data_t));
@@ -66,7 +64,7 @@ void matrixmult_splitter(void *data_in, int num_procs)
         out->length = (req_rows < available_rows) ? req_rows : available_rows;
         out->data = data_out;
 
-        if(i == (num_procs - 1))
+        if (i == (num_procs - 1))
             out->length = data->matrix_len - i * req_rows;
 
         data->row_num += out->length;
@@ -81,6 +79,7 @@ void matrixmult_splitter(void *data_in, int num_procs)
         CHECK_ERROR(pthread_join(tid[i], (void **)&ret_val) != 0);
         CHECK_ERROR(ret_val != 0);
     }
+
     free(tid);
 }
 
@@ -88,7 +87,7 @@ void *matrixmult_map(void *args_in)
 {
     map_args_t* args = (map_args_t*)args_in;
     int row_count = 0;
-    int i, j, x_loc, y_loc, value;
+    int i, j, x_loc, value;
     int *a_ptr, *b_ptr;
 
     assert(args);
@@ -111,7 +110,6 @@ void *matrixmult_map(void *args_in)
             }
 
             x_loc = (data->row_num + row_count);
-            y_loc = i;
             data->output[x_loc * data->matrix_len + i] = value;
         }
 
@@ -125,30 +123,31 @@ void *matrixmult_map(void *args_in)
 
 int main(int argc, char *argv[])
 {
-    int i, j, create_files;
+    int i, j;
     int fd_A, fd_B, fd_out, file_size;
     char *fdata_A, *fdata_B;
-    int matrix_len;
+    int matrix_len, create_files, num_procs;
     struct stat finfo_A, finfo_B;
     char *fname_A, *fname_B, *fname_out;
     int *matrix_A_ptr, *matrix_B_ptr;
-    int num_procs;  // ✅ 추가됨
 
     struct timeval starttime, endtime;
     srand((unsigned)time(NULL));
 
-    if (argc < 4) {
-        printf("USAGE: %s [matrix size] [create_files: 0|1] [num_threads]\n", argv[0]);
+    // Expect 3 arguments: <matrix_size> <create_flag> <num_threads>
+    if (argc != 4) {
+        printf("USAGE: %s <matrix_size> <create_flag: 0|1> <num_threads>\n", argv[0]);
         exit(1);
     }
+
+    CHECK_ERROR((matrix_len = atoi(argv[1])) <= 0);
+    create_files = atoi(argv[2]);
+    num_procs = atoi(argv[3]);
 
     fname_A = "matrix_file_A.txt";
     fname_B = "matrix_file_B.txt";
     fname_out = "matrix_file_out_pthreads.txt";
 
-    CHECK_ERROR((matrix_len = atoi(argv[1])) <= 0);
-    create_files = atoi(argv[2]);
-    num_procs = atoi(argv[3]);  // ✅ 인자로 스레드 수 입력
     file_size = matrix_len * matrix_len * sizeof(int);
 
     printf("MatrixMult_pthreads: Side of the matrix is %d\n", matrix_len);
@@ -191,16 +190,13 @@ int main(int argc, char *argv[])
 
     mm_data_t mm_data;
     mm_data.matrix_len = matrix_len;
-    mm_data.matrix_A = NULL;
-    mm_data.matrix_B = NULL;
+    mm_data.matrix_A = (int *)fdata_A;
+    mm_data.matrix_B = (int *)fdata_B;
     mm_data.row_num = 0;
     mm_data.output = (int *)malloc(matrix_len * matrix_len * sizeof(int));
 
-    mm_data.matrix_A = matrix_A_ptr = (int *)fdata_A;
-    mm_data.matrix_B = matrix_B_ptr = (int *)fdata_B;
-
     gettimeofday(&starttime, 0);
-    matrixmult_splitter(&mm_data, num_procs);  // ✅ 스레드 수 전달
+    matrixmult_splitter(&mm_data, num_procs); 
     gettimeofday(&endtime, 0);
 
     printf("MatrixMult_pthreads: Multiply Completed in %ld sec\n", (endtime.tv_sec - starttime.tv_sec));

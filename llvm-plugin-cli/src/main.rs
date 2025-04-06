@@ -44,6 +44,7 @@ fn main() {
         "phoenix-kmeans" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/kmeans/kmeans_pthread.ll",
         "phoenix-matrix_multiply" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply-pthread.ll",
         "phoenix-pca" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/pca/pca_pthread.ll",
+        "phoenix-linear_regression" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/linear_regression-pthread.ll",
         _ => {
             eprintln!("Unsupported benchmark: {}", args.bench);
             std::process::exit(1);
@@ -76,7 +77,6 @@ fn main() {
     let build_duration2 = build_start2.elapsed();
     println!("Compilation of LLVM Pass Complete!!!\n\n");
     println!("---------------------------------------------------------------------------");
-
 
     // Step 3: Instrument the LLVM IR
     println!("---------------------------------------------------------------------------");
@@ -117,8 +117,17 @@ fn main() {
     let build_start5 = Instant::now();
     let link_cmd = if args.inline {
         "clang out_1.o -o final_exe -lpthread".to_string()
-    } else {
-        "clang out_1.o -o final_exe -L external_instrumentation/target/release/deps -lexternal_instrumentation -lpthread".to_string()
+    } 
+    // else {
+    //     // "clang out_1.o -o final_exe -L external_instrumentation/target/release/deps -lexternal_instrumentation -lpthread".to_string()
+    //     "clang out_1.o -o final_exe external_instrumentation/target/release/deps/libexternal_instrumentation.so -lpthread".to_string()
+    // };
+    else {
+        "clang out_1.o -o final_exe \
+            -Lexternal_instrumentation/target/release/deps \
+            -Wl,-rpath=external_instrumentation/target/release/deps \
+            -lexternal_instrumentation -lpthread"
+            .to_string()
     };
     run_command("Linking Final Executable", &link_cmd);
     let build_duration5 = build_start5.elapsed();
@@ -136,7 +145,7 @@ fn main() {
             args.instr, args.threads
         ),
         "phoenix-string_match" => format!(
-            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/input.txt {}",
+            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/input_large.txt {}",
             args.instr, args.threads
         ),
         "phoenix-kmeans" => format!(
@@ -149,6 +158,10 @@ fn main() {
         ),
         "phoenix-pca" => format!(
             "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe -r 200 -c 200 -s 100 {}",
+            args.instr, args.threads
+        ),
+        "phoenix-linear_regression" => format!(
+            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/splitted.txt {}",
             args.instr, args.threads
         ),
         _ => {
@@ -183,5 +196,5 @@ fn run_command(step: &str, command: &str) {
     }
 }
 
-//cargo build -p llvm-plugin-cli
+//cargo build -p dyin
 //==========================================================================================

@@ -6,7 +6,6 @@ use llvm_plugin::{
 };
 // use llvm_plugin::inkwell::AddressSpace;
 
-
 /// Register this file as an LLVM plugin named "concurrent-write"
 #[llvm_plugin::plugin(name = "ConcurrentWrite", version = "0.1")]
 fn plugin_registrar(builder: &mut PassBuilder) {
@@ -54,9 +53,17 @@ impl LlvmModulePass for ConcurrentWritePass {
         let void_type = context.void_type();
 
         // External function declarations
-        let pthread_self_fn = module.get_function("pthread_self").unwrap_or_else(|| {
-            module.add_function("pthread_self", i64_type.fn_type(&[], false), None)
-        });
+        let get_thread_id_fn = if self.inline_mode {
+            // If inline: call pthread_self directly
+            module.get_function("pthread_self").unwrap_or_else(|| {
+                module.add_function("pthread_self", i64_type.fn_type(&[], false), None)
+            })
+        } else {
+            // If not inline: use Rust wrapper get_thread_id
+            module.get_function("get_thread_id").unwrap_or_else(|| {
+                module.add_function("get_thread_id", i64_type.fn_type(&[], false), None)
+            })
+        };
 
         let log_store_fn = module.get_function("log_store").unwrap_or_else(|| {
             module.add_function(
@@ -90,7 +97,7 @@ impl LlvmModulePass for ConcurrentWritePass {
                         builder.position_before(&instr);
 
                         let tid = builder
-                            .build_call(pthread_self_fn, &[], "tid")
+                            .build_call(get_thread_id_fn, &[], "tid")
                             .unwrap()
                             .try_as_basic_value()
                             .left()
@@ -110,7 +117,7 @@ impl LlvmModulePass for ConcurrentWritePass {
                         builder.position_before(&instr);
 
                         let tid = builder
-                            .build_call(pthread_self_fn, &[], "tid")
+                            .build_call(get_thread_id_fn, &[], "tid")
                             .unwrap()
                             .try_as_basic_value()
                             .left()
