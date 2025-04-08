@@ -18,6 +18,10 @@ struct Cli {
     #[arg(long)]
     inline: bool,
 
+    /// Calling convention to use (only effective if --inline is false)
+    #[arg(long, default_value = "ccc")]
+    call: String,
+
     /// Benchmark to run (e.g., test, phoenix-string_match, etc.)
     #[arg(long, default_value = "test")]
     bench: String,
@@ -29,6 +33,7 @@ fn main() {
     println!("Running with {} threads", args.threads);
     println!("Instrumentation mode: {}", args.instr);
     println!("Inline instrumentation: {}", args.inline);
+    println!("Calling convention: {}", args.call);
     println!("Selected benchmark: {}", args.bench);
 
     let inline_env = if args.inline {
@@ -37,12 +42,14 @@ fn main() {
         "INSTRUMENTATION_INLINE=false"
     };
 
+    let call_env = format!("INSTRUMENTATION_CALL={}", args.call);
+
     // Determine input .ll file path based on benchmark
     let input_ll = match args.bench.as_str() {
         "test" => "in_1.ll",
         "phoenix-string_match" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/string_match-pthread.ll",
         "phoenix-kmeans" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/kmeans/kmeans_pthread.ll",
-        "phoenix-matrix_multiply" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply-pthread.ll",
+        "phoenix-matrix_multiply" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply_pthread.ll",
         "phoenix-pca" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/pca/pca_pthread.ll",
         "phoenix-linear_regression" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/linear_regression-pthread.ll",
         _ => {
@@ -72,7 +79,7 @@ fn main() {
     let build_start2 = Instant::now();
     run_command(
         "Building LLVM Pass",
-        &format!("{inline_env} INSTRUMENTATION_MODE={} cargo build --example concurrent-write --features llvm17-0", args.instr),
+        &format!("{inline_env} {call_env} INSTRUMENTATION_MODE={} cargo build --example concurrent-write --features llvm17-0", args.instr),
     );
     let build_duration2 = build_start2.elapsed();
     println!("Compilation of LLVM Pass Complete!!!\n\n");
@@ -85,9 +92,9 @@ fn main() {
     let build_start3 = Instant::now();
 
     let pass_cmd = format!(
-        "INSTRUMENTATION_MODE={} INSTRUMENTATION_INLINE={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
+        "INSTRUMENTATION_MODE={} INSTRUMENTATION_INLINE={} INSTRUMENTATION_CALL={} opt --load-pass-plugin=target/debug/examples/libconcurrent_write.so \
         --passes=concurrent-write {} -S -o out_1.ll",
-        args.instr, args.inline, input_ll
+        args.instr, args.inline, args.call, input_ll
     );
     run_command("Running instrumentation pass", &pass_cmd);
 
@@ -117,17 +124,8 @@ fn main() {
     let build_start5 = Instant::now();
     let link_cmd = if args.inline {
         "clang out_1.o -o final_exe -lpthread".to_string()
-    } 
-    // else {
-    //     // "clang out_1.o -o final_exe -L external_instrumentation/target/release/deps -lexternal_instrumentation -lpthread".to_string()
-    //     "clang out_1.o -o final_exe external_instrumentation/target/release/deps/libexternal_instrumentation.so -lpthread".to_string()
-    // };
-    else {
-        "clang out_1.o -o final_exe \
-            -Lexternal_instrumentation/target/release/deps \
-            -Wl,-rpath=external_instrumentation/target/release/deps \
-            -lexternal_instrumentation -lpthread"
-            .to_string()
+    } else {
+        "clang out_1.o -o final_exe external_instrumentation/target/release/deps/libexternal_instrumentation.so -lpthread".to_string()
     };
     run_command("Linking Final Executable", &link_cmd);
     let build_duration5 = build_start5.elapsed();
@@ -195,6 +193,7 @@ fn run_command(step: &str, command: &str) {
         eprintln!("{}", String::from_utf8_lossy(&output.stderr));
     }
 }
+
 
 //cargo build -p dyin
 //==========================================================================================

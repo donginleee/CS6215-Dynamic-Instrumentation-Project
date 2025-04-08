@@ -1,12 +1,10 @@
 use either::Either;
 use llvm_plugin::inkwell::values::{BasicValueEnum, InstructionOpcode};
-use llvm_plugin::inkwell::module::Module;
+use llvm_plugin::inkwell::{module::Module, module::Linkage, types::BasicType};
 use llvm_plugin::{
     LlvmModulePass, ModuleAnalysisManager, PassBuilder, PipelineParsing, PreservedAnalyses,
 };
-// use llvm_plugin::inkwell::AddressSpace;
 
-/// Register this file as an LLVM plugin named "concurrent-write"
 #[llvm_plugin::plugin(name = "ConcurrentWrite", version = "0.1")]
 fn plugin_registrar(builder: &mut PassBuilder) {
     builder.add_module_pipeline_parsing_callback(|name, pass_manager| {
@@ -19,10 +17,10 @@ fn plugin_registrar(builder: &mut PassBuilder) {
     });
 }
 
-/// Struct representing our instrumentation pass
 struct ConcurrentWritePass {
     instr_mode: String,
     inline_mode: bool,
+    call_conv: String,
 }
 
 impl ConcurrentWritePass {
@@ -31,11 +29,26 @@ impl ConcurrentWritePass {
         let inline_mode = std::env::var("INSTRUMENTATION_INLINE")
             .map(|v| v == "true")
             .unwrap_or(false);
+        let call_conv = std::env::var("INSTRUMENTATION_CALL").unwrap_or_else(|_| "ccc".into());
+
         println!("[pass debug] INSTRUMENTATION_MODE = {}", instr_mode);
         println!("[pass debug] INSTRUMENTATION_INLINE = {}", inline_mode);
+        println!("[pass debug] INSTRUMENTATION_CALL = {}", call_conv);
+
         Self {
             instr_mode,
             inline_mode,
+            call_conv,
+        }
+    }
+
+    fn get_calling_convention(&self) -> u32 {
+        match self.call_conv.as_str() {
+            "fastcc" => 8,
+            "coldcc" => 9,
+            "preserve_mostcc" => 11,
+            "preserve_allcc" => 12,
+            _ => 0, // ccc (default)
         }
     }
 }
@@ -49,8 +62,8 @@ impl LlvmModulePass for ConcurrentWritePass {
         let context = module.get_context();
         let i64_type = context.i64_type();
         let i8_ptr_type = context.i8_type().ptr_type(0.into());
-        // let i8_ptr_type = context.ptr_type(context.i8_type(), 0);
         let void_type = context.void_type();
+        let call_conv_id = self.get_calling_convention();
 
         // External function declarations
         let get_thread_id_fn = if self.inline_mode {
@@ -60,26 +73,40 @@ impl LlvmModulePass for ConcurrentWritePass {
             })
         } else {
             // If not inline: use Rust wrapper get_thread_id
-            module.get_function("get_thread_id").unwrap_or_else(|| {
+            let func = module.get_function("get_thread_id").unwrap_or_else(|| {
                 module.add_function("get_thread_id", i64_type.fn_type(&[], false), None)
-            })
+            });
+            func.set_call_conventions(call_conv_id);
+            func
         };
 
-        let log_store_fn = module.get_function("log_store").unwrap_or_else(|| {
-            module.add_function(
-                "log_store",
-                void_type.fn_type(&[i64_type.into(), i8_ptr_type.into()], false),
-                None,
-            )
-        });
+        let log_store_fn = {
+            let func = module.get_function("log_store").unwrap_or_else(|| {
+                module.add_function(
+                    "log_store",
+                    void_type.fn_type(&[i64_type.into(), i8_ptr_type.into()], false),
+                    None,
+                )
+            });
+            if !self.inline_mode {
+                func.set_call_conventions(call_conv_id);
+            }
+            func
+        };
 
-        let log_load_fn = module.get_function("log_load").unwrap_or_else(|| {
-            module.add_function(
-                "log_load",
-                void_type.fn_type(&[i64_type.into(), i8_ptr_type.into()], false),
-                None,
-            )
-        });
+        let log_load_fn = {
+            let func = module.get_function("log_load").unwrap_or_else(|| {
+                module.add_function(
+                    "log_load",
+                    void_type.fn_type(&[i64_type.into(), i8_ptr_type.into()], false),
+                    None,
+                )
+            });
+            if !self.inline_mode {
+                func.set_call_conventions(call_conv_id);
+            }
+            func
+        };
 
         // Instrumentation logic
         for func in module.get_functions() {
