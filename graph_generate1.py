@@ -1,53 +1,117 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Load data
 df = pd.read_csv("results/experiment1_data.csv")
+sns.set(style="whitegrid", font_scale=1.2)
 
-# Clean and map columns
-df["inline"] = df["inline"].map({"true": "Inline", "false": "No Inline"})
-df["thread"] = df["thread"].fillna("NA").astype(str)
+# 색상 팔레트
+color_palette = {False: "#1f77b4", True: "#ff7f0e"}  # 파랑 / 주황
+inline_labels = {False: "Non-Inlined", True: "Inlined"}
 
-# ==== Build Time Plot ====
-df_build = df[df["thread"] == "NA"]
-build_avg = df_build.groupby(["bench", "inline"])["build_time"].mean().reset_index()
+# ========== BUILD TIME ==========
+build_df = df[df["thread"] == 8]
+build_agg = build_df.groupby(["bench", "inline"]).agg(
+    mean=("build_time", "mean"),
+    std=("build_time", "std")
+).reset_index()
 
-# Normalize to 'No Inline'
-norm = build_avg[build_avg["inline"] == "No Inline"][["bench", "build_time"]].rename(columns={"build_time": "base"})
-build_avg = pd.merge(build_avg, norm, on="bench")
-build_avg["norm_time"] = build_avg["build_time"] / build_avg["base"]
+plt.figure(figsize=(8, 5))
+ax1 = sns.barplot(
+    data=build_agg,
+    x="bench",
+    y="mean",
+    hue="inline",
+    palette=color_palette,
+    dodge=True,
+    width=0.9
+)
 
-# Barplot
-plt.figure(figsize=(10, 6))
-sns.barplot(data=build_avg, x="bench", y="norm_time", hue="inline")
-plt.title("Build Time Comparison")
-plt.ylabel("Normalized Build Time")
-plt.xlabel("Benchmark")
+# 수동 errorbar 추가
+bar_offset = 0.2
+bench_labels = build_agg["bench"].unique()
+for bench, inline in zip(build_agg["bench"], build_agg["inline"]):
+    idx = list(bench_labels).index(bench)
+    x = idx - bar_offset if not inline else idx + bar_offset
+    y = build_agg[(build_agg["bench"] == bench) & (build_agg["inline"] == inline)]["mean"].values[0]
+    yerr = build_agg[(build_agg["bench"] == bench) & (build_agg["inline"] == inline)]["std"].values[0]
+    ax1.errorbar(x, y, yerr=yerr, fmt='none', capsize=5, color='black')
+
+# 범례 커스터마이즈
+handles, labels = ax1.get_legend_handles_labels()
+custom_labels = [inline_labels[eval(l)] for l in labels]  # Convert 'True'/'False' → 'Inlined'/'Non-Inlined'
+ax1.legend(
+    handles, custom_labels,
+    title="Instrumentation Mode",
+    fontsize=11,
+    title_fontsize=12,
+    handlelength=2.5,
+    handleheight=1.5
+)
+
+# 폰트 스타일 및 테두리
+ax1.set_title("Build Time Comparison", fontsize=15, color="black")
+ax1.set_ylabel("Build Time (secs)", fontsize=13, color="black")
+ax1.set_xlabel("", color="black")
+ax1.set_xticklabels(bench_labels, rotation=30, ha="right", color="black")
+ax1.tick_params(axis='x', pad=8)
+for spine in ax1.spines.values():
+    spine.set_edgecolor('black')
+
 plt.tight_layout()
-plt.savefig("results/exp1_build_bar_noerror.png")
-plt.close()
+plt.savefig("results/build_time_comparison.png")
+plt.show()
 
-# ==== Execution Time Plot ====
-df_exec = df[df["thread"] != "NA"].copy()
-df_exec["thread"] = df_exec["thread"].astype(int)
+# ========== EXECUTION TIME ==========
+exec_df = df[df["thread"] != 8]
+exec_agg = exec_df.groupby(["bench", "thread", "inline"]).agg(
+    mean=("exec_time", "mean"),
+    std=("exec_time", "std")
+).reset_index()
+exec_agg["x_label"] = exec_agg.apply(lambda row: f"{row['bench']}\nThreads {row['thread']}", axis=1)
 
-exec_avg = df_exec.groupby(["bench", "thread", "inline"])["exec_time"].mean().reset_index()
+plt.figure(figsize=(20, 6))
+ax2 = sns.barplot(
+    data=exec_agg,
+    x="x_label",
+    y="mean",
+    hue="inline",
+    palette=color_palette,
+    dodge=True,
+    width=0.9
+)
 
-# Normalize
-norm_exec = exec_avg[exec_avg["inline"] == "No Inline"][["bench", "thread", "exec_time"]].rename(columns={"exec_time": "base"})
-exec_avg = pd.merge(exec_avg, norm_exec, on=["bench", "thread"])
-exec_avg["norm_time"] = exec_avg["exec_time"] / exec_avg["base"]
+# 수동 errorbar 추가
+x_labels = exec_agg["x_label"].unique()
+for label, inline in zip(exec_agg["x_label"], exec_agg["inline"]):
+    idx = list(x_labels).index(label)
+    x = idx - bar_offset if not inline else idx + bar_offset
+    y = exec_agg[(exec_agg["x_label"] == label) & (exec_agg["inline"] == inline)]["mean"].values[0]
+    yerr = exec_agg[(exec_agg["x_label"] == label) & (exec_agg["inline"] == inline)]["std"].values[0]
+    ax2.errorbar(x, y, yerr=yerr, fmt='none', capsize=4, color='black')
 
-# Make label: benchmark + thread
-exec_avg["label"] = exec_avg["bench"] + "\nThreads " + exec_avg["thread"].astype(str)
+# 범례 커스터마이즈
+handles, labels = ax2.get_legend_handles_labels()
+custom_labels = [inline_labels[eval(l)] for l in labels]
+ax2.legend(
+    handles, custom_labels,
+    title="Instrumentation Mode",
+    fontsize=11,
+    title_fontsize=12,
+    handlelength=2.5,
+    handleheight=1.5
+)
 
-# Barplot
-plt.figure(figsize=(18, 6))
-sns.barplot(data=exec_avg, x="label", y="norm_time", hue="inline")
-plt.title("Execution Time")
-plt.ylabel("Normalized Execution Time")
-plt.xlabel("")
+# 스타일 조정
+ax2.set_title("Execution Time", fontsize=15, color="black")
+ax2.set_ylabel("Execution Time (secs)", fontsize=13, color="black")
+ax2.set_xlabel("", color="black")
+ax2.set_xticklabels(x_labels, rotation=45, ha="right", fontsize=9, color="black")
+ax2.tick_params(axis='x', pad=5)
+for spine in ax2.spines.values():
+    spine.set_edgecolor('black')
+
 plt.tight_layout()
-plt.savefig("results/exp1_exec_bar_noerror.png")
-plt.close()
+plt.savefig("results/execution_time_comparison.png")
+plt.show()

@@ -7,7 +7,7 @@ rm -f "$SUMMARY_LOG"
 BENCHES=("phoenix-string_match" "phoenix-kmeans" "phoenix-pca" "phoenix-linear_regression")
 CALLS=("ccc" "fastcc" "preserve_mostcc" "preserve_allcc")
 
-THREADS=1
+THREADS=8
 
 for i in {1..5}; do
   echo "======= Run #$i =======" | tee -a "$SUMMARY_LOG"

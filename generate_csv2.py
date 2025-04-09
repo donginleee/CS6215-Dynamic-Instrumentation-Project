@@ -3,7 +3,7 @@ import csv
 import os
 
 os.makedirs("results", exist_ok=True)
-log_file = "results/experiment2.log"
+log_file = "results/experiment2_summary.log"
 csv_file = "results/experiment2_data.csv"
 
 with open(log_file, "r") as f:
