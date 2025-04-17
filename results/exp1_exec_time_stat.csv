@@ -1,0 +1,65 @@
+bench,thread,inline,mean,std,x_label
+phoenix-kmeans,1,False,54.065,0.6896430235998922,"phoenix-kmeans
+Threads 1"
+phoenix-kmeans,1,True,40.803200000000004,0.27164075541052446,"phoenix-kmeans
+Threads 1"
+phoenix-kmeans,2,False,63.31079999999999,0.2027873270202054,"phoenix-kmeans
+Threads 2"
+phoenix-kmeans,2,True,46.8112,1.029359606745863,"phoenix-kmeans
+Threads 2"
+phoenix-kmeans,4,False,76.812,0.6536910585284158,"phoenix-kmeans
+Threads 4"
+phoenix-kmeans,4,True,47.1224,0.3735161308431009,"phoenix-kmeans
+Threads 4"
+phoenix-kmeans,16,False,93.1938,0.6300215869317466,"phoenix-kmeans
+Threads 16"
+phoenix-kmeans,16,True,48.9952,0.29360040871906096,"phoenix-kmeans
+Threads 16"
+phoenix-linear_regression,1,False,44.226,0.44335989895343625,"phoenix-linear_regression
+Threads 1"
+phoenix-linear_regression,1,True,33.6636,0.6201260355766423,"phoenix-linear_regression
+Threads 1"
+phoenix-linear_regression,2,False,51.9918,0.9464262781643366,"phoenix-linear_regression
+Threads 2"
+phoenix-linear_regression,2,True,39.7104,0.951011198672234,"phoenix-linear_regression
+Threads 2"
+phoenix-linear_regression,4,False,68.3694,2.529329021697254,"phoenix-linear_regression
+Threads 4"
+phoenix-linear_regression,4,True,38.131,0.7734426287708747,"phoenix-linear_regression
+Threads 4"
+phoenix-linear_regression,16,False,83.57480000000001,0.7369088817486169,"phoenix-linear_regression
+Threads 16"
+phoenix-linear_regression,16,True,40.931799999999996,0.6333685341094851,"phoenix-linear_regression
+Threads 16"
+phoenix-pca,1,False,11.9116,0.3959763881849529,"phoenix-pca
+Threads 1"
+phoenix-pca,1,True,8.7744,0.08089066695237423,"phoenix-pca
+Threads 1"
+phoenix-pca,2,False,13.781200000000002,0.2644989603004137,"phoenix-pca
+Threads 2"
+phoenix-pca,2,True,10.1204,0.22810808841424307,"phoenix-pca
+Threads 2"
+phoenix-pca,4,False,18.605600000000003,0.6759310615735896,"phoenix-pca
+Threads 4"
+phoenix-pca,4,True,10.067,0.2707498845798463,"phoenix-pca
+Threads 4"
+phoenix-pca,16,False,21.060399999999998,0.38607939597963514,"phoenix-pca
+Threads 16"
+phoenix-pca,16,True,10.7214,0.33041761454256624,"phoenix-pca
+Threads 16"
+phoenix-string_match,1,False,67.2442,0.5120456034378242,"phoenix-string_match
+Threads 1"
+phoenix-string_match,1,True,50.744600000000005,0.527352159377395,"phoenix-string_match
+Threads 1"
+phoenix-string_match,2,False,79.53920000000001,0.565928175654826,"phoenix-string_match
+Threads 2"
+phoenix-string_match,2,True,58.803399999999996,0.4963273113581389,"phoenix-string_match
+Threads 2"
+phoenix-string_match,4,False,116.1946,1.6902852717810686,"phoenix-string_match
+Threads 4"
+phoenix-string_match,4,True,57.6794,0.5528519693371832,"phoenix-string_match
+Threads 4"
+phoenix-string_match,16,False,134.9238,1.1472474449742753,"phoenix-string_match
+Threads 16"
+phoenix-string_match,16,True,63.99980000000001,0.7460091822491196,"phoenix-string_match
+Threads 16"

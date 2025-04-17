@@ -20,6 +20,10 @@ build_stats = df.groupby(["bench", "call"]).agg(
     std=("build_time", "std")
 ).reset_index()
 
+# Save build time summary to CSV
+build_stats.to_csv("results/exp2_build_time_stat.csv", index=False)
+
+
 plt.figure(figsize=(12, 6))
 ax = sns.barplot(
     data=build_stats,
@@ -59,8 +63,10 @@ for spine in ax.spines.values():
 # 📍 Legend: top-left
 plt.legend(
     title="Calling Convention",
-    loc='upper left',
-    bbox_to_anchor=(0, 1),
+    loc='lower left',
+    # bbox_to_anchor=(0, 1),
+    bbox_to_anchor=(0, 0.02),   # 중앙에서 아래로 내림
+    ncol=1,                        # 4개 항목 가로로 정렬
     fontsize=11,
     title_fontsize=12
 )
@@ -74,6 +80,9 @@ exec_stats = df.groupby(["bench", "call"]).agg(
     mean=("exec_time", "mean"),
     std=("exec_time", "std")
 ).reset_index()
+
+# Save exec time summary to CSV
+exec_stats.to_csv("results/exp2_exec_time_stat.csv", index=False)
 
 plt.figure(figsize=(12, 6))
 ax = sns.barplot(
@@ -113,3 +122,4 @@ plt.legend(
 plt.tight_layout()
 plt.savefig("results/exp2_exec_time_final.png")
 plt.show()
+

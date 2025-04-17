@@ -17,6 +17,9 @@ build_agg = build_df.groupby(["bench", "inline"]).agg(
     std=("build_time", "std")
 ).reset_index()
 
+# Save build time summary to CSV
+build_agg.to_csv("results/exp1_build_time_stat.csv", index=False)
+
 plt.figure(figsize=(8, 5))
 ax1 = sns.barplot(
     data=build_agg,
@@ -71,7 +74,10 @@ exec_agg = exec_df.groupby(["bench", "thread", "inline"]).agg(
 ).reset_index()
 exec_agg["x_label"] = exec_agg.apply(lambda row: f"{row['bench']}\nThreads {row['thread']}", axis=1)
 
-plt.figure(figsize=(20, 6))
+# Save exec time summary to CSV
+exec_agg.to_csv("results/exp1_exec_time_stat.csv", index=False)
+
+plt.figure(figsize=(24, 8))
 ax2 = sns.barplot(
     data=exec_agg,
     x="x_label",
@@ -89,7 +95,7 @@ for label, inline in zip(exec_agg["x_label"], exec_agg["inline"]):
     x = idx - bar_offset if not inline else idx + bar_offset
     y = exec_agg[(exec_agg["x_label"] == label) & (exec_agg["inline"] == inline)]["mean"].values[0]
     yerr = exec_agg[(exec_agg["x_label"] == label) & (exec_agg["inline"] == inline)]["std"].values[0]
-    ax2.errorbar(x, y, yerr=yerr, fmt='none', capsize=4, color='black')
+    ax2.errorbar(x, y, yerr=yerr, fmt='none', capsize=5, color='black')
 
 # 범례 커스터마이즈
 handles, labels = ax2.get_legend_handles_labels()
@@ -98,16 +104,16 @@ ax2.legend(
     handles, custom_labels,
     title="Instrumentation Mode",
     fontsize=11,
-    title_fontsize=12,
+    title_fontsize=15,
     handlelength=2.5,
     handleheight=1.5
 )
 
 # 스타일 조정
-ax2.set_title("Execution Time", fontsize=15, color="black")
-ax2.set_ylabel("Execution Time (secs)", fontsize=13, color="black")
+ax2.set_title("Execution Time", fontsize=20, color="black")
+ax2.set_ylabel("Execution Time (secs)", fontsize=18, color="black")
 ax2.set_xlabel("", color="black")
-ax2.set_xticklabels(x_labels, rotation=45, ha="right", fontsize=9, color="black")
+ax2.set_xticklabels(x_labels, rotation=45, ha="right", fontsize=16, color="black")
 ax2.tick_params(axis='x', pad=5)
 for spine in ax2.spines.values():
     spine.set_edgecolor('black')
@@ -115,3 +121,6 @@ for spine in ax2.spines.values():
 plt.tight_layout()
 plt.savefig("results/execution_time_comparison.png")
 plt.show()
+
+
+

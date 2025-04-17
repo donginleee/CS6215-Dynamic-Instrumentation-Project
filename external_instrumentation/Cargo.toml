@@ -9,3 +9,5 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 libc = "0.2"
 lazy_static = "1.4"
+ctor = "0.2"
+ctrlc = "3.2"

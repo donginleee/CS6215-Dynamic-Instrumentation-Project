@@ -1,120 +1,94 @@
-llvm-plugin-rs 
+Dynamic-Instrumentation-Framework-for-LLVM-IR  
 ==============
+This crate gives the ability to detect "Last Concurrent Write" by using [LLVM pass manager] written in Rust.
 
-[<img alt="version" src="https://img.shields.io/crates/v/llvm-plugin.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/llvm-plugin)
-[<img alt="doc" src="https://img.shields.io/badge/docs.rs-llvm--plugin-66c2a5?style=for-the-badge&labelColor=555555&logo=docs.rs" height="20">](https://docs.rs/llvm-plugin)
-[<img alt="linux" src="https://img.shields.io/github/actions/workflow/status/jamesmth/llvm-plugin-rs/linux.yml?branch=master&label=linux&style=for-the-badge&logo=linux" height="20">](https://github.com/jamesmth/llvm-plugin-rs/actions/workflows/linux.yml?query=branch%3Amaster)
-[<img alt="windows" src="https://img.shields.io/github/actions/workflow/status/jamesmth/llvm-plugin-rs/windows.yml?branch=master&label=windows&style=for-the-badge&logo=windows" height="20">](https://github.com/jamesmth/llvm-plugin-rs/actions/workflows/windows.yml?query=branch%3Amaster)
-[<img alt="macos" src="https://img.shields.io/github/actions/workflow/status/jamesmth/llvm-plugin-rs/macos.yml?branch=master&label=macos&style=for-the-badge&logo=apple" height="20">](https://github.com/jamesmth/llvm-plugin-rs/actions/workflows/macos.yml?query=branch%3Amaster)
+What this tool exactly does is instrumenting load and store instructions at LLVM IR level in multi-threaded environments. For store instructions, the tool detect the thread_id and store the id with memory address using hashmap. For load instructions, the tool retrieve the thread_id which modified the data using memory address. In summary, this crate provides a functionality that determines which thread_id last modified each memory address.
 
-This crate gives the ability to safely implement passes for the [new LLVM pass manager], by leveraging the strongly typed interface
-provided by [Inkwell].
-
-If you have never developed LLVM passes before, you can take a look at the available [examples]. They will (hopefully) give you a
-better idea of how to use this crate.
-
-If you want a deeper understanding of the many concepts surrounding the new LLVM pass manager, you should read the [official LLVM
-documentation].
-
-[Inkwell]: https://github.com/TheDan64/inkwell
+[LLVM pass manager]: https://github.com/jamesmth/llvm-plugin-rs
+<!-- [Inkwell]: https://github.com/TheDan64/inkwell
 [new LLVM pass manager]: https://blog.llvm.org/posts/2021-03-26-the-new-pass-manager/
 [examples]: https://github.com/jamesmth/llvm-plugin-rs/tree/master/examples
-[official LLVM documentation]: https://llvm.org/docs/NewPassManager.html
+[official LLVM documentation]: https://llvm.org/docs/NewPassManager.html -->
 
-## Usage
+## Requirements Before Getting Started
 
-When importing this crate in your `Cargo.toml`, you will need to specify the LLVM version to use with a corresponding feature flag:
+Belows are the settings for the development. 
+I have tested this tool in Intel Xeon E5-2630 v4 based on X86 ISA.
+We suppose that the specific version of LLVM and Rust are already installed.
+- `LLVM Version: 17`
+- `LLVM Compiler: Clang-17`
+- `Rust Version: 1.85.0`
 
-```toml
-[dependencies]
-llvm-plugin = { version = "0.6", features = ["llvm18-1"] }
+After installing LLVM and Rust, we recommend to set shell configuration files(e.g., ~/.bashrc, ~/.bash_profile) like below.
+
+```sh
+#Settings for Preferred 'LLVM Version'
+export LLVM_VERSION=17
+export LLVM_DIR=/usr/lib/llvm-$LLVM_VERSION
+export PATH=$LLVM_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$LLVM_DIR/lib:$LD_LIBRARY_PATH
+export CMAKE_PREFIX_PATH=$LLVM_DIR:$CMAKE_PREFIX_PATH
+export PATH=$HOME/.local/bin:$PATH
+
+#Settings for Rust Path
+export PATH=$HOME/.cargo/bin:$PATH
+
+#Settings for LLVM Pass
+export LLVM_COMPILER="clang-17"
+export LLVM_CC_NAME="clang-17"
+export LLVM_CXX_NAME="clang++-17"
+
+#Settings for Command Line Interface
+alias RUN_DI="$HOME/CS6215-Dynamic-Instrumentation-Project/target/debug/dyin"
 ```
 
-Supported versions: LLVM 10-18 mapping to a cargo feature flag `llvmX-Y` where `X` and `Y` are the LLVM major and minor versions.
 
-## Getting Started
+## Getting Started (Already Build But In Case If You Want to Rebuild)
 
-An LLVM plugin is merely a dylib that is given a [PassBuilder] by the LLVM tool (e.g. [opt], [lld])
-loading it.
-Therefore, you must add the following line in your `Cargo.toml`:
-
-```toml
-[lib]
-crate-type = ["cdylib"]
-```
-
-A [PassBuilder] allows registering callbacks on specific actions being performed by the LLVM tool.
-
-For instance, the `--passes` parameter of [opt] allows specifying a custom pass pipeline to be run on a given IR module. A plugin
-could therefore register a callback for parsing an element of the given pipeline (e.g. a pass name), in order to insert a custom
-pass to run by [opt].
-
-The following code illustrates the idea:
-
-```rust
-use llvm_plugin::inkwell::module::Module;
-use llvm_plugin::{
-    LlvmModulePass, ModuleAnalysisManager, PassBuilder, PipelineParsing, PreservedAnalyses,
-};
-
-// A name and version is required.
-#[llvm_plugin::plugin(name = "plugin_name", version = "0.1")]
-fn plugin_registrar(builder: &mut PassBuilder) {
-    // Add a callback to parse a name from the textual representation of
-    // the pipeline to be run.
-    builder.add_module_pipeline_parsing_callback(|name, manager| {
-        if name == "custom-pass" {
-            // the input pipeline contains the name "custom-pass",
-            // so we add our custom pass to the pass manager
-            manager.add_pass(CustomPass);
-
-            // we notify the caller that we were able to parse
-            // the given name
-            PipelineParsing::Parsed
-        } else {
-            // in any other cases, we notify the caller that our
-            // callback wasn't able to parse the given name
-            PipelineParsing::NotParsed
-        }
-    });
-}
-
-struct CustomPass;
-impl LlvmModulePass for CustomPass {
-    fn run_pass(
-        &self,
-        module: &mut Module,
-        manager: &ModuleAnalysisManager
-    ) -> PreservedAnalyses {
-        // transform the IR
-        todo!()
-    }
-}
-```
-
-Now, executing this command would run our custom pass on some input `module.bc`:
+In the directory of this repo, you should build some basic crates to use Command Line Interface (CLI) tool. 
 
 ```bash
-opt --load-pass-plugin=libplugin.so --passes=custom-pass module.bc -disable-output
+cd /path/to/CS6215-Dynamic-Instrumentation-Project
+
+#Building Libraries for Dynamic Instrumentation
+cargo build -p external_instrumentation --release
+
+#Building Libraries for Inlined Instrumentation
+cargo build -p external_instrumentation_inline --release
+
+#Building CLI Tool
+cargo build -p dyin
+
 ```
 
-However, executing this command would not (`custom-pass2` cannot be parsed by our plugin):
+## Usage of This Tool
+CLI tool for this tools could choose several options.
+CLI tool could work like below.
 
-```bash
-opt --load-pass-plugin=libplugin.so --passes=custom-pass2 module.bc -disable-output
-```
+```shell
+ $ RUN_DI --threads <number of threads> --instr <store, load, both> --call <ccc, fastcc, preserve_allcc, preserve_mostcc> --bench <test, phoenix-kmeans, phoenix-linear_regression, phoenix-pca, phoenix-string_match> (--inline)
+ ```
 
-More callbacks are available, read the [documentation] for more details.
+- `--threads    (default: 2     ): deciding the number of threads for program`
+- `--instr      (default: both  ): choose what instrument to instrument`
+- `--call       (default: ccc   ): deciding which calling convention to use`
+- `--bench      (default: test  ): deciding which benchmark to use`
+- `--inline     (default: 'none'): deciding whether exeucting the tool with or without inlined version`
 
-To learn more about how to sequentially apply more than one pass, read this [opt guide].
+Belows are some examples of CLI tool usage
 
-[opt]: https://www.llvm.org/docs/CommandGuide/opt.html
-[lld]: https://lld.llvm.org/
-[PassBuilder]: https://docs.rs/llvm-plugin/latest/llvm_plugin/struct.PassBuilder.html
-[documentation]: https://docs.rs/llvm-plugin
-[opt guide]: https://llvm.org/docs/NewPassManager.html#invoking-opt
+```shell
+ #Exectuing the Tool without "--inline" Version (Original Intention for This Tool)
+ $ RUN_DI --threads 2 --instr both --call fastcc --bench phoenix-kmenas
+ ```
 
-## Linux & MacOS Requirements
+```shell
+ #Exectuing the Tool with "--inline" Version (Comparison for This Tool)
+ $ RUN_DI --threads 8 --instr store --call preserve_mostcc --bench test --inline
+ ```
+
+
+<!-- ## Linux & MacOS Requirements
 
 Your LLVM toolchain should dynamically link the LLVM library. Fortunately, this is the case for toolchains
 distributed on `apt` and `homebrew` registeries.
@@ -173,4 +147,4 @@ This [LLVM fork] explains how to do so, and provides LLVM toolchains that will m
 
 Contributions are very welcome, make sure to check out the [Contributing Guide] first!
 
-[Contributing Guide]: ./.github/CONTRIBUTING.md
+[Contributing Guide]: ./.github/CONTRIBUTING.md -->

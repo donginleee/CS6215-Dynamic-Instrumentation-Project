@@ -1,405 +1,405 @@
 ======= Run #1 =======
 [bench=phoenix-string_match, call=ccc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.700 secs
-Execution Time             : 131.712 secs
+Instrumentation Build Time : 0.642 secs
+Execution Time             : 132.969 secs
 
 [bench=phoenix-string_match, call=fastcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.360 secs
-Execution Time             : 130.013 secs
+Instrumentation Build Time : 0.352 secs
+Execution Time             : 134.121 secs
 
 [bench=phoenix-string_match, call=preserve_mostcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.324 secs
-Execution Time             : 131.709 secs
+Instrumentation Build Time : 0.346 secs
+Execution Time             : 135.344 secs
 
 [bench=phoenix-string_match, call=preserve_allcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.678 secs
-Execution Time             : 131.381 secs
+Instrumentation Build Time : 0.621 secs
+Execution Time             : 135.741 secs
 
 [bench=phoenix-kmeans, call=ccc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.338 secs
-Execution Time             : 77.652 secs
+Instrumentation Build Time : 0.366 secs
+Execution Time             : 91.768 secs
 
 [bench=phoenix-kmeans, call=fastcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.364 secs
-Execution Time             : 78.635 secs
+Instrumentation Build Time : 0.335 secs
+Execution Time             : 90.609 secs
 
 [bench=phoenix-kmeans, call=preserve_mostcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.355 secs
-Execution Time             : 77.561 secs
+Instrumentation Build Time : 0.627 secs
+Execution Time             : 90.229 secs
 
 [bench=phoenix-kmeans, call=preserve_allcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.640 secs
-Execution Time             : 79.028 secs
+Instrumentation Build Time : 0.350 secs
+Execution Time             : 91.091 secs
 
 [bench=phoenix-pca, call=ccc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.343 secs
-Execution Time             : 19.321 secs
+Instrumentation Build Time : 0.347 secs
+Execution Time             : 21.211 secs
 
 [bench=phoenix-pca, call=fastcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.339 secs
-Execution Time             : 19.081 secs
+Instrumentation Build Time : 0.344 secs
+Execution Time             : 20.813 secs
 
 [bench=phoenix-pca, call=preserve_mostcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.334 secs
-Execution Time             : 19.645 secs
+Instrumentation Build Time : 0.310 secs
+Execution Time             : 20.642 secs
 
 [bench=phoenix-pca, call=preserve_allcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.314 secs
-Execution Time             : 20.139 secs
+Instrumentation Build Time : 0.344 secs
+Execution Time             : 20.742 secs
 
 [bench=phoenix-linear_regression, call=ccc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.327 secs
-Execution Time             : 79.621 secs
+Instrumentation Build Time : 0.331 secs
+Execution Time             : 84.473 secs
 
 [bench=phoenix-linear_regression, call=fastcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.335 secs
-Execution Time             : 81.395 secs
+Instrumentation Build Time : 0.525 secs
+Execution Time             : 80.523 secs
 
 [bench=phoenix-linear_regression, call=preserve_mostcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.553 secs
-Execution Time             : 82.170 secs
+Instrumentation Build Time : 0.311 secs
+Execution Time             : 81.368 secs
 
 [bench=phoenix-linear_regression, call=preserve_allcc, run=1]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.331 secs
-Execution Time             : 81.992 secs
+Instrumentation Build Time : 0.348 secs
+Execution Time             : 83.438 secs
 
 ======= Run #2 =======
 [bench=phoenix-string_match, call=ccc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.335 secs
-Execution Time             : 131.208 secs
+Instrumentation Build Time : 0.364 secs
+Execution Time             : 133.608 secs
 
 [bench=phoenix-string_match, call=fastcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.318 secs
-Execution Time             : 129.626 secs
+Instrumentation Build Time : 0.556 secs
+Execution Time             : 133.901 secs
 
 [bench=phoenix-string_match, call=preserve_mostcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.575 secs
-Execution Time             : 131.908 secs
+Instrumentation Build Time : 0.351 secs
+Execution Time             : 134.012 secs
 
 [bench=phoenix-string_match, call=preserve_allcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.344 secs
-Execution Time             : 133.296 secs
+Instrumentation Build Time : 0.287 secs
+Execution Time             : 133.632 secs
 
 [bench=phoenix-kmeans, call=ccc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.381 secs
-Execution Time             : 79.026 secs
+Instrumentation Build Time : 0.587 secs
+Execution Time             : 90.334 secs
 
 [bench=phoenix-kmeans, call=fastcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.595 secs
-Execution Time             : 78.278 secs
+Instrumentation Build Time : 0.356 secs
+Execution Time             : 90.584 secs
 
 [bench=phoenix-kmeans, call=preserve_mostcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.334 secs
-Execution Time             : 78.227 secs
+Instrumentation Build Time : 0.317 secs
+Execution Time             : 91.487 secs
 
 [bench=phoenix-kmeans, call=preserve_allcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.347 secs
-Execution Time             : 77.649 secs
+Instrumentation Build Time : 0.346 secs
+Execution Time             : 92.690 secs
 
 [bench=phoenix-pca, call=ccc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.337 secs
-Execution Time             : 20.305 secs
+Instrumentation Build Time : 0.631 secs
+Execution Time             : 20.620 secs
 
 [bench=phoenix-pca, call=fastcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.324 secs
-Execution Time             : 19.948 secs
+Instrumentation Build Time : 0.325 secs
+Execution Time             : 21.102 secs
 
 [bench=phoenix-pca, call=preserve_mostcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.328 secs
-Execution Time             : 19.716 secs
+Instrumentation Build Time : 0.347 secs
+Execution Time             : 21.786 secs
 
 [bench=phoenix-pca, call=preserve_allcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.332 secs
-Execution Time             : 19.482 secs
+Instrumentation Build Time : 0.329 secs
+Execution Time             : 20.642 secs
 
 [bench=phoenix-linear_regression, call=ccc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.572 secs
-Execution Time             : 81.432 secs
+Instrumentation Build Time : 0.308 secs
+Execution Time             : 85.664 secs
 
 [bench=phoenix-linear_regression, call=fastcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.311 secs
-Execution Time             : 80.966 secs
+Instrumentation Build Time : 0.324 secs
+Execution Time             : 83.442 secs
 
 [bench=phoenix-linear_regression, call=preserve_mostcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.316 secs
-Execution Time             : 82.380 secs
+Instrumentation Build Time : 0.317 secs
+Execution Time             : 86.845 secs
 
 [bench=phoenix-linear_regression, call=preserve_allcc, run=2]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.324 secs
-Execution Time             : 81.638 secs
+Instrumentation Build Time : 0.595 secs
+Execution Time             : 87.432 secs
 
 ======= Run #3 =======
 [bench=phoenix-string_match, call=ccc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.662 secs
-Execution Time             : 132.574 secs
+Instrumentation Build Time : 0.347 secs
+Execution Time             : 134.364 secs
 
 [bench=phoenix-string_match, call=fastcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.333 secs
-Execution Time             : 130.948 secs
+Instrumentation Build Time : 0.344 secs
+Execution Time             : 133.149 secs
 
 [bench=phoenix-string_match, call=preserve_mostcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.331 secs
-Execution Time             : 132.159 secs
+Instrumentation Build Time : 0.604 secs
+Execution Time             : 132.911 secs
 
 [bench=phoenix-string_match, call=preserve_allcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.619 secs
-Execution Time             : 131.880 secs
+Instrumentation Build Time : 0.317 secs
+Execution Time             : 133.312 secs
 
 [bench=phoenix-kmeans, call=ccc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.372 secs
-Execution Time             : 77.648 secs
+Instrumentation Build Time : 0.369 secs
+Execution Time             : 92.707 secs
 
 [bench=phoenix-kmeans, call=fastcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.371 secs
-Execution Time             : 78.134 secs
+Instrumentation Build Time : 0.643 secs
+Execution Time             : 91.689 secs
 
 [bench=phoenix-kmeans, call=preserve_mostcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.360 secs
-Execution Time             : 78.743 secs
+Instrumentation Build Time : 0.353 secs
+Execution Time             : 91.239 secs
 
 [bench=phoenix-kmeans, call=preserve_allcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.615 secs
-Execution Time             : 79.781 secs
+Instrumentation Build Time : 0.366 secs
+Execution Time             : 92.282 secs
 
 [bench=phoenix-pca, call=ccc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.348 secs
-Execution Time             : 19.274 secs
+Instrumentation Build Time : 0.323 secs
+Execution Time             : 20.591 secs
 
 [bench=phoenix-pca, call=fastcc, run=3]
 ====================== Instrumentation Time Summary =======================
 Instrumentation Build Time : 0.329 secs
-Execution Time             : 20.244 secs
+Execution Time             : 22.625 secs
 
 [bench=phoenix-pca, call=preserve_mostcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.320 secs
-Execution Time             : 19.487 secs
+Instrumentation Build Time : 0.546 secs
+Execution Time             : 20.666 secs
 
 [bench=phoenix-pca, call=preserve_allcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.309 secs
-Execution Time             : 20.160 secs
+Instrumentation Build Time : 0.354 secs
+Execution Time             : 20.620 secs
 
 [bench=phoenix-linear_regression, call=ccc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.328 secs
-Execution Time             : 83.483 secs
+Instrumentation Build Time : 0.339 secs
+Execution Time             : 82.116 secs
 
 [bench=phoenix-linear_regression, call=fastcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.318 secs
-Execution Time             : 79.570 secs
+Instrumentation Build Time : 0.336 secs
+Execution Time             : 84.985 secs
 
 [bench=phoenix-linear_regression, call=preserve_mostcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.566 secs
-Execution Time             : 81.399 secs
+Instrumentation Build Time : 0.339 secs
+Execution Time             : 86.283 secs
 
 [bench=phoenix-linear_regression, call=preserve_allcc, run=3]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.326 secs
-Execution Time             : 81.355 secs
+Instrumentation Build Time : 0.308 secs
+Execution Time             : 85.125 secs
 
 ======= Run #4 =======
 [bench=phoenix-string_match, call=ccc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.327 secs
-Execution Time             : 131.890 secs
+Instrumentation Build Time : 0.574 secs
+Execution Time             : 134.102 secs
 
 [bench=phoenix-string_match, call=fastcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.352 secs
-Execution Time             : 130.343 secs
+Instrumentation Build Time : 0.342 secs
+Execution Time             : 134.689 secs
 
 [bench=phoenix-string_match, call=preserve_mostcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.621 secs
-Execution Time             : 130.627 secs
+Instrumentation Build Time : 0.312 secs
+Execution Time             : 135.465 secs
 
 [bench=phoenix-string_match, call=preserve_allcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.338 secs
-Execution Time             : 132.714 secs
+Instrumentation Build Time : 0.574 secs
+Execution Time             : 134.195 secs
 
 [bench=phoenix-kmeans, call=ccc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.357 secs
-Execution Time             : 78.059 secs
+Instrumentation Build Time : 0.315 secs
+Execution Time             : 91.557 secs
 
 [bench=phoenix-kmeans, call=fastcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.640 secs
-Execution Time             : 77.950 secs
+Instrumentation Build Time : 0.368 secs
+Execution Time             : 90.906 secs
 
 [bench=phoenix-kmeans, call=preserve_mostcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.351 secs
-Execution Time             : 78.068 secs
+Instrumentation Build Time : 0.543 secs
+Execution Time             : 91.350 secs
 
 [bench=phoenix-kmeans, call=preserve_allcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.360 secs
-Execution Time             : 78.911 secs
+Instrumentation Build Time : 0.369 secs
+Execution Time             : 90.932 secs
 
 [bench=phoenix-pca, call=ccc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.354 secs
-Execution Time             : 20.138 secs
+Instrumentation Build Time : 0.342 secs
+Execution Time             : 21.124 secs
 
 [bench=phoenix-pca, call=fastcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.341 secs
-Execution Time             : 19.012 secs
+Instrumentation Build Time : 0.314 secs
+Execution Time             : 20.548 secs
 
 [bench=phoenix-pca, call=preserve_mostcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.336 secs
-Execution Time             : 20.370 secs
+Instrumentation Build Time : 0.324 secs
+Execution Time             : 20.644 secs
 
 [bench=phoenix-pca, call=preserve_allcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.294 secs
-Execution Time             : 19.432 secs
+Instrumentation Build Time : 0.318 secs
+Execution Time             : 20.312 secs
 
 [bench=phoenix-linear_regression, call=ccc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.601 secs
-Execution Time             : 79.758 secs
+Instrumentation Build Time : 0.320 secs
+Execution Time             : 84.698 secs
 
 [bench=phoenix-linear_regression, call=fastcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.295 secs
-Execution Time             : 83.854 secs
+Instrumentation Build Time : 0.599 secs
+Execution Time             : 84.645 secs
 
 [bench=phoenix-linear_regression, call=preserve_mostcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.314 secs
-Execution Time             : 82.130 secs
+Instrumentation Build Time : 0.300 secs
+Execution Time             : 84.095 secs
 
 [bench=phoenix-linear_regression, call=preserve_allcc, run=4]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.317 secs
-Execution Time             : 83.431 secs
+Instrumentation Build Time : 0.304 secs
+Execution Time             : 82.729 secs
 
 ======= Run #5 =======
 [bench=phoenix-string_match, call=ccc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.648 secs
-Execution Time             : 132.179 secs
+Instrumentation Build Time : 0.362 secs
+Execution Time             : 135.638 secs
 
 [bench=phoenix-string_match, call=fastcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.343 secs
-Execution Time             : 131.029 secs
+Instrumentation Build Time : 0.525 secs
+Execution Time             : 132.937 secs
 
 [bench=phoenix-string_match, call=preserve_mostcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.293 secs
-Execution Time             : 130.619 secs
+Instrumentation Build Time : 0.313 secs
+Execution Time             : 134.156 secs
 
 [bench=phoenix-string_match, call=preserve_allcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.604 secs
-Execution Time             : 129.505 secs
+Instrumentation Build Time : 0.320 secs
+Execution Time             : 134.061 secs
 
 [bench=phoenix-kmeans, call=ccc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.305 secs
-Execution Time             : 77.859 secs
+Instrumentation Build Time : 0.583 secs
+Execution Time             : 90.519 secs
 
 [bench=phoenix-kmeans, call=fastcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.369 secs
-Execution Time             : 77.851 secs
+Instrumentation Build Time : 0.362 secs
+Execution Time             : 90.973 secs
 
 [bench=phoenix-kmeans, call=preserve_mostcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.374 secs
-Execution Time             : 78.149 secs
+Instrumentation Build Time : 0.375 secs
+Execution Time             : 90.366 secs
 
 [bench=phoenix-kmeans, call=preserve_allcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.645 secs
-Execution Time             : 78.517 secs
+Instrumentation Build Time : 0.352 secs
+Execution Time             : 90.429 secs
 
 [bench=phoenix-pca, call=ccc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.292 secs
-Execution Time             : 20.015 secs
+Instrumentation Build Time : 0.573 secs
+Execution Time             : 20.655 secs
 
 [bench=phoenix-pca, call=fastcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.338 secs
-Execution Time             : 20.300 secs
+Instrumentation Build Time : 0.340 secs
+Execution Time             : 20.339 secs
 
 [bench=phoenix-pca, call=preserve_mostcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.330 secs
-Execution Time             : 18.979 secs
+Instrumentation Build Time : 0.344 secs
+Execution Time             : 20.583 secs
 
 [bench=phoenix-pca, call=preserve_allcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.335 secs
-Execution Time             : 20.057 secs
+Instrumentation Build Time : 0.338 secs
+Execution Time             : 20.706 secs
 
 [bench=phoenix-linear_regression, call=ccc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.324 secs
-Execution Time             : 81.719 secs
+Instrumentation Build Time : 0.318 secs
+Execution Time             : 83.346 secs
 
 [bench=phoenix-linear_regression, call=fastcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.335 secs
-Execution Time             : 80.873 secs
+Instrumentation Build Time : 0.324 secs
+Execution Time             : 82.158 secs
 
 [bench=phoenix-linear_regression, call=preserve_mostcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.662 secs
-Execution Time             : 79.855 secs
+Instrumentation Build Time : 0.290 secs
+Execution Time             : 85.054 secs
 
 [bench=phoenix-linear_regression, call=preserve_allcc, run=5]
 ====================== Instrumentation Time Summary =======================
-Instrumentation Build Time : 0.294 secs
-Execution Time             : 81.429 secs
+Instrumentation Build Time : 0.545 secs
+Execution Time             : 85.001 secs
 
