@@ -46,8 +46,8 @@ impl ConcurrentWritePass {
         match self.call_conv.as_str() {
             "fastcc" => 8,
             "coldcc" => 9,
-            "preserve_mostcc" => 11,
-            "preserve_allcc" => 12,
+            "preserve_mostcc" => 14, //11,
+            "preserve_allcc" => 15,  //12,
             _ => 0, // ccc (default)
         }
     }

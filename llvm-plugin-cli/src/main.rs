@@ -47,11 +47,16 @@ fn main() {
     // Determine input .ll file path based on benchmark
     let input_ll = match args.bench.as_str() {
         "test" => "in_1.ll",
-        "phoenix-string_match" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/string_match-pthread.ll",
-        "phoenix-kmeans" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/kmeans/kmeans_pthread.ll",
-        "phoenix-matrix_multiply" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply_pthread.ll",
-        "phoenix-pca" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/pca/pca_pthread.ll",
-        "phoenix-linear_regression" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/linear_regression-pthread.ll",
+        // "phoenix-string_match" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/string_match-pthread.ll",
+        // "phoenix-kmeans" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/kmeans/kmeans_pthread.ll",
+        // "phoenix-matrix_multiply" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply_pthread.ll",
+        // "phoenix-pca" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/pca/pca_pthread.ll",
+        // "phoenix-linear_regression" => "/home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/linear_regression-pthread.ll",
+        "phoenix-string_match" => "phoenix/phoenix-2.0/tests/string_match/string_match-pthread.ll",
+        "phoenix-kmeans" => "phoenix/phoenix-2.0/tests/kmeans/kmeans_pthread.ll",
+        "phoenix-matrix_multiply" => "phoenix/phoenix-2.0/tests/matrix_multiply/matrix_multiply_pthread.ll",
+        "phoenix-pca" => "phoenix/phoenix-2.0/tests/pca/pca_pthread.ll",
+        "phoenix-linear_regression" => "phoenix/phoenix-2.0/tests/linear_regression/linear_regression-pthread.ll",
         _ => {
             eprintln!("Unsupported benchmark: {}", args.bench);
             std::process::exit(1);
@@ -143,7 +148,8 @@ fn main() {
             args.instr, args.threads
         ),
         "phoenix-string_match" => format!(
-            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/input_large.txt {}",
+            // "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/string_match/input_large.txt {}",
+            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe phoenix/phoenix-2.0/tests/string_match/input_large.txt {}",
             args.instr, args.threads
         ),
         "phoenix-kmeans" => format!(
@@ -159,7 +165,8 @@ fn main() {
             args.instr, args.threads
         ),
         "phoenix-linear_regression" => format!(
-            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/splitted.txt {}",
+            // "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe /home/dongin/llvm-plugin-rs/phoenix/phoenix-2.0/tests/linear_regression/splitted.txt {}",
+            "INSTRUMENTATION_MODE={} LD_LIBRARY_PATH=external_instrumentation/target/release/deps ./final_exe phoenix/phoenix-2.0/tests/linear_regression/splitted.txt {}",
             args.instr, args.threads
         ),
         _ => {

@@ -5,15 +5,12 @@ This crate gives the ability to detect "Last Concurrent Write" by using [LLVM pa
 What this tool exactly does is instrumenting load and store instructions at LLVM IR level in multi-threaded environments. For store instructions, the tool detect the thread_id and store the id with memory address using hashmap. For load instructions, the tool retrieve the thread_id which modified the data using memory address. In summary, this crate provides a functionality that determines which thread_id last modified each memory address.
 
 [LLVM pass manager]: https://github.com/jamesmth/llvm-plugin-rs
-<!-- [Inkwell]: https://github.com/TheDan64/inkwell
-[new LLVM pass manager]: https://blog.llvm.org/posts/2021-03-26-the-new-pass-manager/
-[examples]: https://github.com/jamesmth/llvm-plugin-rs/tree/master/examples
-[official LLVM documentation]: https://llvm.org/docs/NewPassManager.html -->
+
 
 ## Requirements Before Getting Started
 
 Belows are the settings for the development. 
-I have tested this tool in Intel Xeon E5-2630 v4 based on X86 ISA.
+I have tested this tool in Ubuntu 22.04.4 and Python 3.10.12 using Intel Xeon E5-2630 v4 (32GB memory).
 We suppose that the specific version of LLVM and Rust are already installed.
 - `LLVM Version: 17`
 - `LLVM Compiler: Clang-17`
@@ -75,7 +72,7 @@ CLI tool could work like below.
 - `--bench      (default: test  ): deciding which benchmark to use`
 - `--inline     (default: 'none'): deciding whether exeucting the tool with or without inlined version`
 
-Belows are some examples of CLI tool usage
+Commands below are some examples of CLI tool usage
 
 ```shell
  #Exectuing the Tool without "--inline" Version (Original Intention for This Tool)
@@ -87,6 +84,22 @@ Belows are some examples of CLI tool usage
  $ RUN_DI --threads 8 --instr store --call preserve_mostcc --bench test --inline
  ```
 
+## Important Codes for the Tool
+
+There are five important code pieces for this project
+- `LLVM Pass Code ($ cd /path/to/CS6215-Dynamic-Instrumentation-Project/examples/concurrent_write.rs)`
+- `External Module for Dynamic Instrumentation ($ cd /path/to/CS6215-Dynamic-Instrumentation-Project/external_instrumentation/src/lib.rs)`
+- `External Module for Inlined Version ($ cd /path/to/CS6215-Dynamic-Instrumentation-Project/external_instrumentation_inline/src/lib.rs)`
+- `CLI Tool Code (cd /path/to/CS6215-Dynamic-Instrumentation-Project/llvm-plugin-cli/src/main.rs): Related Packages Required (e.g., matplotlib, pandas)`
+- `Automatically Running Experiments and Getting Results`
+    - `Running Experiment1 ($ ./run_experiment1.sh): experiments regarding different benchamrks in different number of threads`
+    - `Running Experiment2 ($ ./run_experiment2.sh): experiments regarding different calling conventions`
+    - `Making CSV format file for experiment1 ($ python3 generate_csv1.py)`
+    - `Making CSV format file for experiment2 ($ python3 generate_csv2.py)`
+    - `Making seaborn style graph for experiment1 ($ python3 graph_generate1.py)`
+    - `Making seaborn style graph for experiment2 ($ python3 graph_generate2.py)`
+    
+    
 
 <!-- ## Linux & MacOS Requirements
 
