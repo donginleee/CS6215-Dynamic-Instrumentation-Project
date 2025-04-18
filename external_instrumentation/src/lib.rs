@@ -4,8 +4,11 @@ use lazy_static::lazy_static;
 use std::ffi::c_void;
 use libc::malloc_usable_size;
 
+// Shared global map to track the last thread ID that performed a store to a given address
 lazy_static! {
     static ref LAST_WRITE_MAP: Mutex<HashMap<usize, u64>> = Mutex::new(HashMap::new());
+
+    // Global environment variable to control instrumentation mode: "store", "load", or "both"
     static ref INSTR_MODE: String = {
         let mode = std::env::var("INSTRUMENTATION_MODE").unwrap_or("both".to_string());
         println!("[debug] INSTRUMENTATION_MODE = {}", mode); 
@@ -13,7 +16,8 @@ lazy_static! {
     };
 }
 
-/// Returns the calling thread's unique ID
+/// External instrumentation function to get the current thread ID
+/// This function will be called from LLVM-instrumented code
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn get_thread_id() -> u64 {
     let tid = libc::pthread_self() as u64;
@@ -21,7 +25,10 @@ pub unsafe extern "C" fn get_thread_id() -> u64 {
     tid
 }
 
-/// Logs a store operation if instrumentation mode includes "store"
+/// External instrumentation function to log a memory store
+/// - Filters out null or invalid addresses
+/// - Logs the store if instrumentation mode includes "store"
+/// - Records the thread ID that performed the store
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn log_store(tid: u64, addr: *mut c_void) {
     if addr.is_null() {
@@ -31,18 +38,19 @@ pub unsafe extern "C" fn log_store(tid: u64, addr: *mut c_void) {
 
     let addr_val = addr as usize;
 
-    // Avoid inserting invalid addresses (e.g., (void*)1, (void*)2)
+    // Filter out extremely low addresses, which are likely invalid
     if addr_val < 0x1000 {
         println!("[debug] log_store: suspicious address {:#x}, skipping", addr_val);
         return;
     }
 
-    // Check if memory is still valid
+    // Verify that memory has not been freed before accessing it
     if malloc_usable_size(addr) == 0 {
         println!("[debug] log_store: freed or invalid memory at {:#x}, skipping", addr_val);
         return;
     }
 
+    // Perform logging only if instrumentation mode includes store
     if INSTR_MODE.as_str() == "store" || INSTR_MODE.as_str() == "both" {
         let mut map = LAST_WRITE_MAP.lock().unwrap();
         map.insert(addr_val, tid);
@@ -50,7 +58,10 @@ pub unsafe extern "C" fn log_store(tid: u64, addr: *mut c_void) {
     }
 }
 
-/// Logs a load operation if instrumentation mode includes "load"
+/// External instrumentation function to log a memory load
+/// - Filters out null or invalid addresses
+/// - Logs the load if instrumentation mode includes "load"
+/// - Reports the thread that last modified the address, if known
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn log_load(tid: u64, addr: *mut c_void) {
     if addr.is_null() {
@@ -60,18 +71,19 @@ pub unsafe extern "C" fn log_load(tid: u64, addr: *mut c_void) {
 
     let addr_val = addr as usize;
 
-    // Avoid reading from invalid addresses
+    // Filter out extremely low addresses, which are likely invalid
     if addr_val < 0x1000 {
         println!("[debug] log_load: suspicious address {:#x}, skipping", addr_val);
         return;
     }
 
-    // Check if memory is still valid
+    // Verify that memory has not been freed before accessing it
     if malloc_usable_size(addr) == 0 {
         println!("[debug] log_load: freed or invalid memory at {:#x}, skipping", addr_val);
         return;
     }
 
+    // Perform logging only if instrumentation mode includes load
     if INSTR_MODE.as_str() == "load" || INSTR_MODE.as_str() == "both" {
         let map = LAST_WRITE_MAP.lock().unwrap();
         if let Some(&last_tid) = map.get(&addr_val) {
@@ -95,4 +107,4 @@ pub unsafe extern "C" fn log_load(tid: u64, addr: *mut c_void) {
     }
 }
 
-// cargo build -p external_instrumentation --release
+// Build this library using: cargo build -p external_instrumentation --release

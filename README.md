@@ -51,7 +51,7 @@ cd /path/to/CS6215-Dynamic-Instrumentation-Project
 cargo build -p external_instrumentation --release
 
 #Building Libraries for Inlined Instrumentation
-cargo build -p external_instrumentation_inline --release
+RUSTFLAGS="--emit=llvm-bc" cargo build -p external_instrumentation_inline --release
 
 #Building CLI Tool
 cargo build -p dyin

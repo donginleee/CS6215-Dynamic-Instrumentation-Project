@@ -2,24 +2,29 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Load data
+# Load experiment 1 result CSV
 df = pd.read_csv("results/experiment1_data.csv")
 sns.set(style="whitegrid", font_scale=1.2)
 
-# 색상 팔레트
-color_palette = {False: "#1f77b4", True: "#ff7f0e"}  # 파랑 / 주황
+# Define color palette for inlined vs non-inlined cases
+color_palette = {False: "#1f77b4", True: "#ff7f0e"}
 inline_labels = {False: "Non-Inlined", True: "Inlined"}
 
-# ========== BUILD TIME ==========
+# ================= BUILD TIME PLOT =================
+
+# Use only data where thread count is 8 for build time comparison
 build_df = df[df["thread"] == 8]
+
+# Aggregate build time statistics (mean and standard deviation)
 build_agg = build_df.groupby(["bench", "inline"]).agg(
     mean=("build_time", "mean"),
     std=("build_time", "std")
 ).reset_index()
 
-# Save build time summary to CSV
+# Save summarized build statistics
 build_agg.to_csv("results/exp1_build_time_stat.csv", index=False)
 
+# Plot build time comparison
 plt.figure(figsize=(8, 5))
 ax1 = sns.barplot(
     data=build_agg,
@@ -31,7 +36,7 @@ ax1 = sns.barplot(
     width=0.9
 )
 
-# 수동 errorbar 추가
+# Add error bars manually
 bar_offset = 0.2
 bench_labels = build_agg["bench"].unique()
 for bench, inline in zip(build_agg["bench"], build_agg["inline"]):
@@ -41,9 +46,9 @@ for bench, inline in zip(build_agg["bench"], build_agg["inline"]):
     yerr = build_agg[(build_agg["bench"] == bench) & (build_agg["inline"] == inline)]["std"].values[0]
     ax1.errorbar(x, y, yerr=yerr, fmt='none', capsize=5, color='black')
 
-# 범례 커스터마이즈
+# Customize legend with readable labels
 handles, labels = ax1.get_legend_handles_labels()
-custom_labels = [inline_labels[eval(l)] for l in labels]  # Convert 'True'/'False' → 'Inlined'/'Non-Inlined'
+custom_labels = [inline_labels[eval(l)] for l in labels]
 ax1.legend(
     handles, custom_labels,
     title="Instrumentation Mode",
@@ -53,7 +58,7 @@ ax1.legend(
     handleheight=1.5
 )
 
-# 폰트 스타일 및 테두리
+# Set plot styling and axes
 ax1.set_title("Build Time Comparison", fontsize=15, color="black")
 ax1.set_ylabel("Build Time (secs)", fontsize=13, color="black")
 ax1.set_xlabel("", color="black")
@@ -66,17 +71,24 @@ plt.tight_layout()
 plt.savefig("results/build_time_comparison.png")
 plt.show()
 
-# ========== EXECUTION TIME ==========
+# ================= EXECUTION TIME PLOT =================
+
+# Use non-thread-8 runs to compare execution time across threads
 exec_df = df[df["thread"] != 8]
+
+# Aggregate execution statistics (mean and standard deviation)
 exec_agg = exec_df.groupby(["bench", "thread", "inline"]).agg(
     mean=("exec_time", "mean"),
     std=("exec_time", "std")
 ).reset_index()
+
+# Create x-axis labels including thread info
 exec_agg["x_label"] = exec_agg.apply(lambda row: f"{row['bench']}\nThreads {row['thread']}", axis=1)
 
-# Save exec time summary to CSV
+# Save summarized execution time statistics
 exec_agg.to_csv("results/exp1_exec_time_stat.csv", index=False)
 
+# Plot execution time comparison
 plt.figure(figsize=(24, 8))
 ax2 = sns.barplot(
     data=exec_agg,
@@ -88,7 +100,7 @@ ax2 = sns.barplot(
     width=0.9
 )
 
-# 수동 errorbar 추가
+# Add error bars manually
 x_labels = exec_agg["x_label"].unique()
 for label, inline in zip(exec_agg["x_label"], exec_agg["inline"]):
     idx = list(x_labels).index(label)
@@ -97,7 +109,7 @@ for label, inline in zip(exec_agg["x_label"], exec_agg["inline"]):
     yerr = exec_agg[(exec_agg["x_label"] == label) & (exec_agg["inline"] == inline)]["std"].values[0]
     ax2.errorbar(x, y, yerr=yerr, fmt='none', capsize=5, color='black')
 
-# 범례 커스터마이즈
+# Customize legend
 handles, labels = ax2.get_legend_handles_labels()
 custom_labels = [inline_labels[eval(l)] for l in labels]
 ax2.legend(
@@ -109,7 +121,7 @@ ax2.legend(
     handleheight=1.5
 )
 
-# 스타일 조정
+# Set plot styling and axes
 ax2.set_title("Execution Time", fontsize=20, color="black")
 ax2.set_ylabel("Execution Time (secs)", fontsize=18, color="black")
 ax2.set_xlabel("", color="black")
@@ -121,6 +133,3 @@ for spine in ax2.spines.values():
 plt.tight_layout()
 plt.savefig("results/execution_time_comparison.png")
 plt.show()
-
-
-

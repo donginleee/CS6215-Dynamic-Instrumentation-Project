@@ -32,7 +32,7 @@ pub extern "C" fn log_load(tid: u64, addr: *mut c_void) {
     let index = (addr as usize) % TABLE_SIZE;
     unsafe {
         let prev_tid = LAST_WRITES[index];
-        // 👇 extern block must be unsafe
+        // extern block must be unsafe
         unsafe extern "C" {
             fn printf(fmt: *const u8, ...) -> i32;
         }
